@@ -13,6 +13,10 @@
 - Never describe how the answer will be structured; just give the answer
 - When asking questions, always include 2–3 options and a clear recommendation
 
+## Planning
+
+- When planning, be thorough. Do not leave any decisions open, and present the user with actual implemention thoughts and details. Ask questions of the user if any part of the task at hand is ambiguous or has multiple paths
+
 ## Command Line
 
 - If `go` is not available, run `devbox shell` to enter an environment where it is

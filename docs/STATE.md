@@ -6,18 +6,18 @@ This file tracks progress through the plans in `docs/plans/`.
 
 ## Plans
 
-| Plan file | Title | Status | Notes | Completed on |
-| --- | --- | --- | --- | --- |
-| `00-overview.md` | Overview | Not started |  | - |
-| `01-repo-skeleton.md` | Repo skeleton | **Completed** | Implementation finished. **Acceptance checks:** run `go test ./...` and verify CLI prints help (suggest running `make build` and `./bin/lcss help`). | 2026-01-18 |
-| `02-config-merge-validate.md` | Config merge & validate | Completed | User approved. Verification not run. | 2026-01-18 |
-| `03-token-css-emission.md` | Token CSS emission | Completed | Verified `make build` and `./bin/lcss tokens --base /tmp/lcss-test/base.json --stdout` produced `:root` and theme blocks. | 2026-01-18 |
-| `04-class-extractor.md` | Class extractor | Completed | Verified `make build`. | 2026-01-18 |
-| `05-utility-compiler.md` | Utility compiler | Not started |  | - |
-| `06-variants-pipeline.md` | Variants pipeline | Not started |  | - |
-| `07-preflight.md` | Preflight | Not started |  | - |
-| `08-watch-caching.md` | Watch & caching | Not started |  | - |
-| `09-testing.md` | Testing | Not started |  | - |
+|Plan file|Title|Status|Notes|Completed on|
+|---|---|---|---|---|
+|`00-overview.md`|Overview|Not started||-|
+|`01-repo-skeleton.md`|Repo skeleton|**Completed**|Implementation finished. **Acceptance checks:** run `go test ./...` and verify CLI prints help (suggest running `make build` and `./bin/lcss help`).|2026-01-18|
+|`02-config-merge-validate.md`|Config merge & validate|Completed|User approved. Verification not run.|2026-01-18|
+|`03-token-css-emission.md`|Token CSS emission|Completed|Verified `make build` and `./bin/lcss tokens --base /tmp/lcss-test/base.json --stdout` produced `:root` and theme blocks.|2026-01-18|
+|`04-class-extractor.md`|Class extractor|Completed|Verified `make build`.|2026-01-18|
+|`05-utility-compiler.md`|Utility compiler|Not started||-|
+|`06-variants-pipeline.md`|Variants pipeline|Not started||-|
+|`07-base.md`|Base stylesheet|Not started||-|
+|`08-watch-caching.md`|Watch & caching|Not started||-|
+|`09-testing.md`|Testing|Not started||-|
 
 ---
 

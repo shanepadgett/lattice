@@ -10,7 +10,7 @@ Create the initial Go CLI layout and internal package structure.
 
 ## Steps
 
-1. Create cmd/ucss/main.go and wire a basic CLI entry.
+1. Create cmd/lcss/main.go and wire a basic CLI entry.
 2. Create internal packages: config, extract, compile, emit, util.
 3. Add placeholder types/functions to allow compiling.
 4. Add a README note on how to run the CLI (temporary).

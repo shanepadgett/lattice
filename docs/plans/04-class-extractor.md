@@ -15,7 +15,7 @@ Scan content files to extract used class names for JIT compilation.
 2. Extract candidate class strings from class/className attributes.
 3. Split by whitespace and add safelist entries.
 4. Return a unique, sorted set of class names.
-5. Add CLI command: ucss scan.
+5. Add CLI command: lcss scan.
 
 ## Deliverables
 

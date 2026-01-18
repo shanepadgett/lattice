@@ -11,6 +11,6 @@ This folder breaks the main plan into focused execution subplans. Each subplan i
 5. [04-class-extractor.md](04-class-extractor.md)
 6. [05-utility-compiler.md](05-utility-compiler.md)
 7. [06-variants-pipeline.md](06-variants-pipeline.md)
-8. [07-preflight.md](07-preflight.md)
+8. [07-base.md](07-base.md)
 9. [08-watch-caching.md](08-watch-caching.md)
 10. [09-testing.md](09-testing.md)

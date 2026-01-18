@@ -2,7 +2,7 @@
 
 ## Goal
 
-Map class names to CSS rules and emit util.css.
+Map class names to CSS rules and emit lattice.css.
 
 ## Inputs
 
@@ -18,7 +18,7 @@ Map class names to CSS rules and emit util.css.
 
 ## Deliverables
 
-- dist/util.css with only used utilities
+- dist/lattice.css with only used utilities
 
 ## Acceptance checks
 

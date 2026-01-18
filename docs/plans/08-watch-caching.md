@@ -19,7 +19,7 @@ Implement watch mode and incremental rebuilds based on input changes.
 
 ## Deliverables
 
-- ucss watch command with fast incremental builds
+- lcss watch command with fast incremental builds
 
 ## Acceptance checks
 

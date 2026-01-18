@@ -10,6 +10,7 @@ import (
 	"sort"
 	"strings"
 
+	"lcss/internal/compile"
 	"lcss/internal/config"
 	"lcss/internal/emit"
 	"lcss/internal/extract"
@@ -33,6 +34,11 @@ func main() {
 		}
 	case "tokens":
 		if err := runTokens(os.Args[2:]); err != nil {
+			_, _ = fmt.Fprintln(os.Stderr, err)
+			os.Exit(1)
+		}
+	case "build":
+		if err := runBuild(os.Args[2:]); err != nil {
 			_, _ = fmt.Fprintln(os.Stderr, err)
 			os.Exit(1)
 		}
@@ -152,6 +158,7 @@ func printRootUsage() {
 	_, _ = fmt.Fprintln(os.Stdout, "  lcss [options]")
 	_, _ = fmt.Fprintln(os.Stdout, "  lcss config print --base <path> [--site <path>]")
 	_, _ = fmt.Fprintln(os.Stdout, "  lcss tokens --base <path> [--site <path>] [--out <path>]")
+	_, _ = fmt.Fprintln(os.Stdout, "  lcss build --base <path> [--site <path>] [--out <path>] [--stdout]")
 	_, _ = fmt.Fprintln(os.Stdout, "  lcss scan --base <path> [--site <path>] [--top <n>]")
 }
 
@@ -212,6 +219,71 @@ func runTokens(args []string) error {
 func printTokensUsage() {
 	_, _ = fmt.Fprintln(os.Stdout, "Usage:")
 	_, _ = fmt.Fprintln(os.Stdout, "  lcss tokens --base <path> [--site <path>] [--out <path>]")
+}
+
+func runBuild(args []string) error {
+	flags := flag.NewFlagSet("build", flag.ContinueOnError)
+	flags.SetOutput(os.Stdout)
+
+	basePath := flags.String("base", "", "Path to base config JSON")
+	sitePath := flags.String("site", "", "Path to site override config JSON (optional)")
+	outPath := flags.String("out", "dist/lattice.css", "Path to output CSS")
+	stdout := flags.Bool("stdout", false, "Write CSS to stdout instead of a file")
+
+	flags.Usage = func() {
+		printBuildUsage()
+		_, _ = fmt.Fprintln(os.Stdout, "")
+		_, _ = fmt.Fprintln(os.Stdout, "Options:")
+		flags.PrintDefaults()
+	}
+
+	if err := flags.Parse(args); err != nil {
+		return err
+	}
+	if *basePath == "" {
+		flags.Usage()
+		return errors.New("--base is required")
+	}
+
+	cfg, err := config.Load(*basePath, *sitePath)
+	if err != nil {
+		return err
+	}
+	if err := cfg.Validate(); err != nil {
+		return err
+	}
+	if len(cfg.Build.Content) == 0 {
+		return errors.New("build.content is required")
+	}
+
+	result, err := extract.FromPaths(cfg.Build.Content, cfg.Build.Safelist)
+	if err != nil {
+		return err
+	}
+
+	canonical := cfg.Canonicalize()
+	output, err := compile.Build(canonical, result)
+	if err != nil {
+		return err
+	}
+	for _, warning := range output.Warnings {
+		_, _ = fmt.Fprintln(os.Stderr, "warning:", warning)
+	}
+
+	if *stdout {
+		if len(output.Manifest) > 0 {
+			_, _ = fmt.Fprintln(os.Stderr, "warning: manifest is not written when --stdout is set")
+		}
+		_, err := os.Stdout.Write(output.CSS)
+		return err
+	}
+
+	return emit.Write(emit.Artifacts{LatticeCSS: output.CSS, Manifest: output.Manifest}, *outPath)
+}
+
+func printBuildUsage() {
+	_, _ = fmt.Fprintln(os.Stdout, "Usage:")
+	_, _ = fmt.Fprintln(os.Stdout, "  lcss build --base <path> [--site <path>] [--out <path>] [--stdout]")
 }
 
 func runScan(args []string) error {

@@ -19,8 +19,7 @@ Break the project into incremental, testable milestones with clear deliverables 
 
 ## Output artifacts
 
-- dist/util.css
-- dist/tokens.css
+- dist/lattice.css
 - dist/manifest.json (optional)
 
 ## Acceptance criteria

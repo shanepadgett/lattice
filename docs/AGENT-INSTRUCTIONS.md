@@ -14,6 +14,12 @@ Keep this file short and practical. Document only what an agent needs to use the
   - `lcss tokens --base <path> [--site <path>] [--out <path>]`
   - Use `--stdout` to write to stdout.
 
+## Build
+
+- Build lattice.css from config + content scan:
+  - `lcss build --base <path> [--site <path>] [--out <path>] [--stdout]`
+  - Uses `build.content` and `build.safelist` from config.
+
 ## Class Scan
 
 - Extract used classes:

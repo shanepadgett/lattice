@@ -15,7 +15,7 @@ Implement config loading, deep merge, and validation to produce a canonical conf
 2. Implement deep merge with array replace semantics.
 3. Validate required fields and referenced breakpoint names.
 4. Normalize tokens into canonical maps (colors, scales, fonts).
-5. Add a CLI command: ucss config print.
+5. Add a CLI command: lcss config print.
 
 ## Deliverables
 

@@ -1,0 +1,561 @@
+package compile
+
+import (
+	"fmt"
+	"sort"
+	"strings"
+
+	"lcss/internal/config"
+	"lcss/internal/extract"
+)
+
+type Decl struct {
+	Property string
+	Value    string
+}
+
+type Rule struct {
+	Selector string
+	Decls    []Decl
+	Media    string
+}
+
+type variantConfig struct {
+	separator   string
+	classPrefix string
+	responsive  map[string]string
+	state       map[string]struct{}
+}
+
+func buildUtilities(canonical config.Canonical, classes []string) ([]Rule, []string, []string) {
+	variants := buildVariantConfig(canonical.Config)
+
+	rules := make([]Rule, 0, len(classes))
+	matched := make([]string, 0, len(classes))
+	unknown := make([]string, 0)
+
+	for _, class := range classes {
+		rule, ok := matchClass(canonical, variants, class)
+		if !ok {
+			unknown = append(unknown, class)
+			continue
+		}
+		rules = append(rules, rule)
+		matched = append(matched, class)
+	}
+
+	return rules, matched, unknown
+}
+
+func buildVariantConfig(cfg config.Config) variantConfig {
+	responsive := make(map[string]string, len(cfg.Variants.Responsive))
+	for _, name := range cfg.Variants.Responsive {
+		if value, ok := cfg.Breakpoints[name]; ok {
+			responsive[name] = value
+		}
+	}
+	state := make(map[string]struct{}, len(cfg.Variants.State))
+	for _, name := range cfg.Variants.State {
+		state[name] = struct{}{}
+	}
+
+	separator := cfg.Separator
+	if separator == "" {
+		separator = ":"
+	}
+
+	return variantConfig{
+		separator:   separator,
+		classPrefix: cfg.ClassPrefix,
+		responsive:  responsive,
+		state:       state,
+	}
+}
+
+func matchClass(canonical config.Canonical, variants variantConfig, class string) (Rule, bool) {
+	parsed, ok := parseClass(variants, class)
+	if !ok {
+		return Rule{}, false
+	}
+
+	decls, ok := matchUtility(parsed.Base, canonical)
+	if !ok {
+		return Rule{}, false
+	}
+
+	selector := "." + escapeClass(class)
+	if len(parsed.Pseudos) > 0 {
+		selector += strings.Join(parsed.Pseudos, "")
+	}
+
+	return Rule{
+		Selector: selector,
+		Decls:    decls,
+		Media:    parsed.Media,
+	}, true
+}
+
+type parsedClass struct {
+	Base    string
+	Media   string
+	Pseudos []string
+}
+
+func parseClass(variants variantConfig, class string) (parsedClass, bool) {
+	parts := strings.Split(class, variants.separator)
+	if len(parts) == 0 {
+		return parsedClass{}, false
+	}
+
+	base := parts[len(parts)-1]
+	if variants.classPrefix != "" {
+		if !strings.HasPrefix(base, variants.classPrefix) {
+			return parsedClass{}, false
+		}
+		base = strings.TrimPrefix(base, variants.classPrefix)
+		if base == "" {
+			return parsedClass{}, false
+		}
+	}
+
+	media := ""
+	pseudos := make([]string, 0, len(parts)-1)
+
+	for _, variant := range parts[:len(parts)-1] {
+		if variant == "" {
+			return parsedClass{}, false
+		}
+		if breakpoint, ok := variants.responsive[variant]; ok {
+			if media != "" {
+				return parsedClass{}, false
+			}
+			media = fmt.Sprintf("(min-width: %s)", breakpoint)
+			continue
+		}
+		if _, ok := variants.state[variant]; ok {
+			pseudos = append(pseudos, ":"+variant)
+			continue
+		}
+		return parsedClass{}, false
+	}
+
+	return parsedClass{
+		Base:    base,
+		Media:   media,
+		Pseudos: pseudos,
+	}, true
+}
+
+func matchUtility(base string, canonical config.Canonical) ([]Decl, bool) {
+	space := canonical.Tokens.Scales["space"]
+	colors := canonical.Tokens.Themes["default"].Colors
+	fontSize := canonical.Tokens.Scales["fontSize"]
+	lineHeight := canonical.Tokens.Scales["lineHeight"]
+	fontWeight := canonical.Tokens.Scales["fontWeight"]
+	fonts := canonical.Tokens.Themes["default"].Fonts
+	radius := canonical.Tokens.Scales["radius"]
+
+	if decls, ok := matchSpacing(base, space); ok {
+		return decls, true
+	}
+	if decls, ok := matchSize(base, space); ok {
+		return decls, true
+	}
+	if decls, ok := matchDisplay(base); ok {
+		return decls, true
+	}
+	if decls, ok := matchFlex(base); ok {
+		return decls, true
+	}
+	if decls, ok := matchTypography(base, fonts, fontSize, lineHeight, fontWeight, colors); ok {
+		return decls, true
+	}
+	if decls, ok := matchColors(base, colors); ok {
+		return decls, true
+	}
+	if decls, ok := matchBorders(base, colors); ok {
+		return decls, true
+	}
+	if decls, ok := matchRadius(base, radius); ok {
+		return decls, true
+	}
+
+	return nil, false
+}
+
+func matchSpacing(base string, space map[string]string) ([]Decl, bool) {
+	key, props := parseSpacing(base)
+	if key == "" || len(props) == 0 {
+		return nil, false
+	}
+	if _, ok := space[key]; !ok {
+		return nil, false
+	}
+	value := fmt.Sprintf("var(--space-%s)", key)
+	decls := make([]Decl, 0, len(props))
+	for _, prop := range props {
+		decls = append(decls, Decl{Property: prop, Value: value})
+	}
+	return decls, true
+}
+
+func parseSpacing(base string) (string, []string) {
+	switch {
+	case strings.HasPrefix(base, "px-"):
+		return base[3:], []string{"padding-left", "padding-right"}
+	case strings.HasPrefix(base, "py-"):
+		return base[3:], []string{"padding-top", "padding-bottom"}
+	case strings.HasPrefix(base, "pt-"):
+		return base[3:], []string{"padding-top"}
+	case strings.HasPrefix(base, "pr-"):
+		return base[3:], []string{"padding-right"}
+	case strings.HasPrefix(base, "pb-"):
+		return base[3:], []string{"padding-bottom"}
+	case strings.HasPrefix(base, "pl-"):
+		return base[3:], []string{"padding-left"}
+	case strings.HasPrefix(base, "p-"):
+		return base[2:], []string{"padding"}
+	case strings.HasPrefix(base, "mx-"):
+		return base[3:], []string{"margin-left", "margin-right"}
+	case strings.HasPrefix(base, "my-"):
+		return base[3:], []string{"margin-top", "margin-bottom"}
+	case strings.HasPrefix(base, "mt-"):
+		return base[3:], []string{"margin-top"}
+	case strings.HasPrefix(base, "mr-"):
+		return base[3:], []string{"margin-right"}
+	case strings.HasPrefix(base, "mb-"):
+		return base[3:], []string{"margin-bottom"}
+	case strings.HasPrefix(base, "ml-"):
+		return base[3:], []string{"margin-left"}
+	case strings.HasPrefix(base, "m-"):
+		return base[2:], []string{"margin"}
+	case strings.HasPrefix(base, "gap-x-"):
+		return base[6:], []string{"column-gap"}
+	case strings.HasPrefix(base, "gap-y-"):
+		return base[6:], []string{"row-gap"}
+	case strings.HasPrefix(base, "gapx-"):
+		return base[5:], []string{"column-gap"}
+	case strings.HasPrefix(base, "gapy-"):
+		return base[5:], []string{"row-gap"}
+	case strings.HasPrefix(base, "gap-"):
+		return base[4:], []string{"gap"}
+	default:
+		return "", nil
+	}
+}
+
+func matchSize(base string, space map[string]string) ([]Decl, bool) {
+	if strings.HasPrefix(base, "w-") {
+		key := base[2:]
+		if value, ok := sizeValue(key, space, true); ok {
+			return []Decl{{Property: "width", Value: value}}, true
+		}
+	}
+	if strings.HasPrefix(base, "h-") {
+		key := base[2:]
+		if value, ok := sizeValue(key, space, false); ok {
+			return []Decl{{Property: "height", Value: value}}, true
+		}
+	}
+	return nil, false
+}
+
+func sizeValue(key string, space map[string]string, isWidth bool) (string, bool) {
+	switch key {
+	case "full":
+		return "100%", true
+	case "screen":
+		if isWidth {
+			return "100vw", true
+		}
+		return "100vh", true
+	default:
+		if _, ok := space[key]; ok {
+			return fmt.Sprintf("var(--space-%s)", key), true
+		}
+	}
+	return "", false
+}
+
+func matchDisplay(base string) ([]Decl, bool) {
+	values := map[string]string{
+		"block":        "block",
+		"inline-block": "inline-block",
+		"inline":       "inline",
+		"flex":         "flex",
+		"inline-flex":  "inline-flex",
+		"grid":         "grid",
+		"hidden":       "none",
+		"contents":     "contents",
+	}
+	if value, ok := values[base]; ok {
+		return []Decl{{Property: "display", Value: value}}, true
+	}
+	return nil, false
+}
+
+func matchFlex(base string) ([]Decl, bool) {
+	if base == "flex-row" {
+		return []Decl{{Property: "flex-direction", Value: "row"}}, true
+	}
+	if base == "flex-col" {
+		return []Decl{{Property: "flex-direction", Value: "column"}}, true
+	}
+	if strings.HasPrefix(base, "items-") {
+		value := strings.TrimPrefix(base, "items-")
+		if mapped, ok := mapAlign(value); ok {
+			return []Decl{{Property: "align-items", Value: mapped}}, true
+		}
+	}
+	if strings.HasPrefix(base, "justify-") {
+		value := strings.TrimPrefix(base, "justify-")
+		if mapped, ok := mapJustify(value); ok {
+			return []Decl{{Property: "justify-content", Value: mapped}}, true
+		}
+	}
+	return nil, false
+}
+
+func mapAlign(value string) (string, bool) {
+	switch value {
+	case "start":
+		return "flex-start", true
+	case "center":
+		return "center", true
+	case "end":
+		return "flex-end", true
+	case "stretch":
+		return "stretch", true
+	case "baseline":
+		return "baseline", true
+	default:
+		return "", false
+	}
+}
+
+func mapJustify(value string) (string, bool) {
+	switch value {
+	case "start":
+		return "flex-start", true
+	case "center":
+		return "center", true
+	case "end":
+		return "flex-end", true
+	case "between":
+		return "space-between", true
+	case "around":
+		return "space-around", true
+	case "evenly":
+		return "space-evenly", true
+	default:
+		return "", false
+	}
+}
+
+func matchTypography(base string, fonts, fontSize, lineHeight, fontWeight, colors map[string]string) ([]Decl, bool) {
+	if strings.HasPrefix(base, "text-") {
+		key := strings.TrimPrefix(base, "text-")
+		if _, ok := fontSize[key]; ok {
+			return []Decl{{Property: "font-size", Value: fmt.Sprintf("var(--font-size-%s)", key)}}, true
+		}
+		if _, ok := colors[key]; ok {
+			return []Decl{{Property: "color", Value: fmt.Sprintf("var(--color-%s)", key)}}, true
+		}
+	}
+	if strings.HasPrefix(base, "leading-") {
+		key := strings.TrimPrefix(base, "leading-")
+		if _, ok := lineHeight[key]; ok {
+			return []Decl{{Property: "line-height", Value: fmt.Sprintf("var(--line-height-%s)", key)}}, true
+		}
+	}
+	if strings.HasPrefix(base, "font-") {
+		key := strings.TrimPrefix(base, "font-")
+		if _, ok := fonts[key]; ok {
+			return []Decl{{Property: "font-family", Value: fmt.Sprintf("var(--font-%s)", key)}}, true
+		}
+		if _, ok := fontWeight[key]; ok {
+			return []Decl{{Property: "font-weight", Value: fmt.Sprintf("var(--font-weight-%s)", key)}}, true
+		}
+	}
+	return nil, false
+}
+
+func matchColors(base string, colors map[string]string) ([]Decl, bool) {
+	if strings.HasPrefix(base, "bg-") {
+		key := strings.TrimPrefix(base, "bg-")
+		if _, ok := colors[key]; ok {
+			return []Decl{{Property: "background-color", Value: fmt.Sprintf("var(--color-%s)", key)}}, true
+		}
+	}
+	if strings.HasPrefix(base, "text-") {
+		key := strings.TrimPrefix(base, "text-")
+		if _, ok := colors[key]; ok {
+			return []Decl{{Property: "color", Value: fmt.Sprintf("var(--color-%s)", key)}}, true
+		}
+	}
+	if strings.HasPrefix(base, "border-") {
+		key := strings.TrimPrefix(base, "border-")
+		if _, ok := colors[key]; ok {
+			return []Decl{{Property: "border-color", Value: fmt.Sprintf("var(--color-%s)", key)}}, true
+		}
+	}
+	return nil, false
+}
+
+func matchBorders(base string, colors map[string]string) ([]Decl, bool) {
+	if base == "border" {
+		return []Decl{
+			{Property: "border-width", Value: "1px"},
+			{Property: "border-style", Value: "solid"},
+		}, true
+	}
+	if strings.HasPrefix(base, "border-") {
+		key := strings.TrimPrefix(base, "border-")
+		if _, ok := colors[key]; ok {
+			return nil, false
+		}
+		switch key {
+		case "0", "2", "4", "8":
+			return []Decl{
+				{Property: "border-width", Value: key + "px"},
+				{Property: "border-style", Value: "solid"},
+			}, true
+		}
+	}
+	return nil, false
+}
+
+func matchRadius(base string, radius map[string]string) ([]Decl, bool) {
+	if base == "rounded" {
+		key := defaultRadiusKey(radius)
+		if key == "" {
+			return nil, false
+		}
+		return []Decl{{Property: "border-radius", Value: fmt.Sprintf("var(--radius-%s)", key)}}, true
+	}
+	if strings.HasPrefix(base, "rounded-") {
+		key := strings.TrimPrefix(base, "rounded-")
+		if _, ok := radius[key]; ok {
+			return []Decl{{Property: "border-radius", Value: fmt.Sprintf("var(--radius-%s)", key)}}, true
+		}
+	}
+	return nil, false
+}
+
+func defaultRadiusKey(radius map[string]string) string {
+	if _, ok := radius["default"]; ok {
+		return "default"
+	}
+	if _, ok := radius["md"]; ok {
+		return "md"
+	}
+	if _, ok := radius["base"]; ok {
+		return "base"
+	}
+	if _, ok := radius["sm"]; ok {
+		return "sm"
+	}
+	keys := make([]string, 0, len(radius))
+	for key := range radius {
+		keys = append(keys, key)
+	}
+	sort.Strings(keys)
+	if len(keys) == 0 {
+		return ""
+	}
+	return keys[0]
+}
+
+func renderRules(rules []Rule) string {
+	var b strings.Builder
+	for _, rule := range rules {
+		writeRule(&b, rule)
+	}
+	return b.String()
+}
+
+func writeRule(b *strings.Builder, rule Rule) {
+	if rule.Media != "" {
+		b.WriteString("@media ")
+		b.WriteString(rule.Media)
+		b.WriteString(" {\n")
+		writeRuleBody(b, rule, "  ")
+		b.WriteString("}\n")
+		return
+	}
+	writeRuleBody(b, rule, "")
+}
+
+func writeRuleBody(b *strings.Builder, rule Rule, indent string) {
+	b.WriteString(indent)
+	b.WriteString(rule.Selector)
+	b.WriteString(" {\n")
+	for _, decl := range rule.Decls {
+		b.WriteString(indent)
+		b.WriteString("  ")
+		b.WriteString(decl.Property)
+		b.WriteString(": ")
+		b.WriteString(decl.Value)
+		b.WriteString(";\n")
+	}
+	b.WriteString(indent)
+	b.WriteString("}\n")
+}
+
+func escapeClass(name string) string {
+	if name == "" {
+		return ""
+	}
+	var b strings.Builder
+	for i, r := range name {
+		switch {
+		case r == ':':
+			b.WriteString("\\:")
+		case r == '.' || r == '/' || r == '%':
+			b.WriteRune('\\')
+			b.WriteRune(r)
+		case i == 0 && r >= '0' && r <= '9':
+			b.WriteString("\\3")
+			b.WriteRune(r)
+			b.WriteString(" ")
+		default:
+			b.WriteRune(r)
+		}
+	}
+	return b.String()
+}
+
+type manifest struct {
+	Version int      `json:"version"`
+	Files   int      `json:"files"`
+	Classes []string `json:"classes"`
+	Unknown []string `json:"unknown,omitempty"`
+}
+
+func buildManifest(result extract.Result, matched, unknown []string) ([]byte, error) {
+	data := manifest{
+		Version: manifestVersion,
+		Files:   result.Files,
+		Classes: matched,
+		Unknown: unknown,
+	}
+	return config.MarshalDeterministic(data)
+}
+
+func baseCSS(_ config.Canonical) string {
+	var b strings.Builder
+	b.WriteString("*, *::before, *::after {\n")
+	b.WriteString("  box-sizing: border-box;\n")
+	b.WriteString("}\n\n")
+	b.WriteString("html, body {\n")
+	b.WriteString("  height: 100%;\n")
+	b.WriteString("}\n\n")
+	b.WriteString("body {\n")
+	b.WriteString("  margin: 0;\n")
+	b.WriteString("  background-color: var(--color-bg);\n")
+	b.WriteString("  color: var(--color-fg);\n")
+	b.WriteString("  font-family: var(--font-sans);\n")
+	b.WriteString("  line-height: var(--line-height-normal);\n")
+	b.WriteString("}\n")
+	return b.String()
+}

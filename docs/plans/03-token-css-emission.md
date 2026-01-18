@@ -2,7 +2,7 @@
 
 ## Goal
 
-Generate tokens.css from the canonical config with stable ordering.
+Generate token CSS variables for inclusion in lattice.css with stable ordering.
 
 ## Inputs
 
@@ -13,12 +13,11 @@ Generate tokens.css from the canonical config with stable ordering.
 1. Convert tokens to CSS variables in :root.
 2. Emit additional theme scopes as [data-theme="theme-name"] blocks.
 3. Ensure sorted output ordering for diffs and caching.
-4. Add CLI command: ucss tokens (or as part of build).
+4. Add CLI command: lcss tokens (or as part of build).
 
 ## Deliverables
 
-- dist/tokens.css
-- Optional: merged tokens into util.css when configured
+- dist/lattice.css (token variables block)
 
 ## Acceptance checks
 

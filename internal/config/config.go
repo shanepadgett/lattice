@@ -40,14 +40,15 @@ type Variants struct {
 }
 
 type Build struct {
-	Content  []string    `json:"content,omitempty"`
-	Safelist []string    `json:"safelist,omitempty"`
-	Emit     EmitOptions `json:"emit,omitempty"`
+	Content            []string    `json:"content,omitempty"`
+	Safelist           []string    `json:"safelist,omitempty"`
+	Emit               EmitOptions `json:"emit,omitempty"`
+	UnknownClassPolicy string      `json:"unknownClassPolicy,omitempty"`
 }
 
 type EmitOptions struct {
 	TokensCSS bool `json:"tokensCss,omitempty"`
-	Preflight bool `json:"preflight,omitempty"`
+	Base      bool `json:"base,omitempty"`
 	Manifest  bool `json:"manifest,omitempty"`
 }
 
@@ -104,6 +105,9 @@ func Load(basePath, sitePath string) (Config, error) {
 	if cfg.Separator == "" {
 		cfg.Separator = ":"
 	}
+	if cfg.Build.UnknownClassPolicy == "" {
+		cfg.Build.UnknownClassPolicy = "warn"
+	}
 
 	return cfg, nil
 }
@@ -119,6 +123,14 @@ func (c Config) Validate() error {
 	}
 	if len(c.Scales.Space) == 0 {
 		return errors.New("scales.space is required")
+	}
+	if c.Build.UnknownClassPolicy != "" {
+		switch c.Build.UnknownClassPolicy {
+		case "ignore", "warn", "error":
+			// ok
+		default:
+			return fmt.Errorf("build.unknownClassPolicy must be one of ignore, warn, error")
+		}
 	}
 	if len(c.Variants.Responsive) > 0 {
 		if c.Breakpoints == nil {

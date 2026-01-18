@@ -13,9 +13,9 @@ Add a test strategy and concrete tests (unit, integration, and CI) to validate b
 ## Strategy
 
 - Unit tests: cover parsing, merging, normalization, token generation, and individual matcher logic.
-- Integration tests (fixture-driven): run the CLI or internal pipeline against small fixture projects and assert generated `tokens.css`, `util.css`, and `manifest.json` contents match golden files.
+- Integration tests (fixture-driven): run the CLI or internal pipeline against small fixture projects and assert generated `lattice.css` and `manifest.json` contents match golden files.
 - Snapshot/golden files: store expected outputs under `internal/*/testdata/golden` or a top-level `testdata/golden/<fixture-name>/` for easy diffs.
-- Smoke tests: CLI `ucss scan`/`ucss build` run in a temporary directory to ensure commands exit successfully and produce files.
+- Smoke tests: CLI `lcss scan`/`lcss build` run in a temporary directory to ensure commands exit successfully and produce files.
 - Determinism checks: assert stable ordering and formatting (use canonical serializers) so golden diffs are meaningful.
 
 ## Steps
@@ -32,7 +32,7 @@ Add a test strategy and concrete tests (unit, integration, and CI) to validate b
    - Utility matchers (spacing, colors, variants)
 3. Implement integration tests that:
    - Copy a fixture into a temp dir
-   - Run the `ucss` build (or call internal API directly)
+   - Run the `lcss` build (or call internal API directly)
    - Compare generated outputs to golden files (textual diffs)
 4. Add tests for edge cases:
    - Unknown classes (ignored or reported)
@@ -55,11 +55,11 @@ Add a test strategy and concrete tests (unit, integration, and CI) to validate b
 ## Example test case (integration)
 
 - Fixture: `fixture-basic/` with `index.html` containing `<div class="p-4 bg-primary md:hover:bg-primary">` and a site config overriding `primary` color
-- Test: run build and assert `tokens.css` contains `--color-primary` with overridden value and `util.css` contains `.p-4` with `padding: var(--space-4)` and a `@media (min-width: ...)` wrapper for `md:hover:bg-primary`.
+- Test: run build and assert `lattice.css` contains `--color-primary` with overridden value and `.p-4` with `padding: var(--space-4)` and a `@media (min-width: ...)` wrapper for `md:hover:bg-primary`.
 
 ---
 
-💡 Tips:
+Tips:
 
 - Use `t.Run` subtests and `cmp.Diff` or similar helpers for readable failures.
 - Keep golden files small and human-readable; prefer CSS formatted with one declaration per line for easier diffs.

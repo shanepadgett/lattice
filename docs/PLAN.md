@@ -33,8 +33,7 @@ Non-goals (explicitly):
 
 ### Output
 
-* `dist/util.css` (generated utilities + optional preflight/base)
-* `dist/tokens.css` (CSS variables for tokens; can be merged into util.css if you prefer)
+* `dist/lattice.css` (tokens as CSS variables + optional base + utilities)
 * `dist/manifest.json` (optional debug: used classes, generation stats)
 
 ---
@@ -148,9 +147,10 @@ Suggested structure (you can adjust naming):
   "build": {
     "content": ["./src/**/*.{html,tmpl,gohtml,tsx,jsx,vue,svelte,mdx}"],
     "safelist": [],
+    "unknownClassPolicy": "warn",
     "emit": {
       "tokensCss": true,
-      "preflight": true,
+      "base": true,
       "manifest": true
     }
   }
@@ -263,7 +263,7 @@ Start small and expand. Suggested phase 1 utilities:
 
 Create:
 
-* `cmd/ucss/main.go` (CLI entry)
+* `cmd/lcss/main.go` (CLI entry)
 * `internal/config/` (load + merge + validate)
 * `internal/extract/` (scan files for class candidates)
 * `internal/compile/` (class -> CSS rules)
@@ -287,11 +287,11 @@ Create:
 
 Deliverable:
 
-* `ucss config print --base configs/base.json --site configs/site.json` shows merged config.
+* `lcss config print --base configs/base.json --site configs/site.json` shows merged config.
 
 ### Milestone 2: Token CSS emission
 
-Generate `tokens.css`:
+Generate token CSS variables for inclusion in `lattice.css`:
 
 * `:root` includes default theme vars
 * For each additional theme:
@@ -320,7 +320,7 @@ Implement a fast extractor:
 
 Deliverable:
 
-* `ucss scan --config ...` prints count + top N classes
+* `lcss scan --config ...` prints count + top N classes
 
 Notes:
 
@@ -350,7 +350,7 @@ Implement:
 
 Deliverable:
 
-* `ucss build` outputs `util.css` containing only rules for used classes.
+* `lcss build` outputs `lattice.css` containing only rules for used classes.
 
 ### Milestone 5: Variants pipeline
 
@@ -374,31 +374,31 @@ Deliverable:
 
 * variant order handling: responsive wrapper should be outermost.
 
-### Milestone 6: Preflight (optional, minimal)
+### Milestone 6: Base stylesheet (optional, minimal)
 
-Since all sites are dark, preflight can be small and token-based:
+Since all sites are dark, base can be small and token-based:
 
 * set `color-scheme: dark;`
 * body background/foreground from tokens
 * default font from tokens
 * basic resets you like
 
-Make it toggleable with `build.emit.preflight`.
+Make it toggleable with `build.emit.base`.
 
 ### Milestone 7: Watch mode + caching
 
 * Hash inputs (config files + file modification times + extracted class set)
 * Only rebuild if changed
-* `ucss watch` uses fsnotify
+* `lcss watch` uses fsnotify
 
 ---
 
 ## CLI commands (suggested)
 
-* `ucss build --base configs/base.json --site configs/site.json --out ./dist`
-* `ucss watch --base ... --site ... --out ./dist`
-* `ucss scan --base ... --site ...` (debug: show used classes)
-* `ucss config print --base ... --site ...` (debug merged config)
+* `lcss build --base configs/base.json --site configs/site.json --out ./dist`
+* `lcss watch --base ... --site ... --out ./dist`
+* `lcss scan --base ... --site ...` (debug: show used classes)
+* `lcss config print --base ... --site ...` (debug merged config)
 
 ---
 
@@ -421,15 +421,9 @@ If you want “one-liner installs”:
 
 ## Testing strategy (lightweight but effective)
 
-1. **Golden file tests**
-
-   * Given (config + class set) -> `util.css` matches expected output.
-2. **Extractor tests**
-
-   * Ensure class extraction works for your templating stack.
-3. **Config merge tests**
-
-   * Ensure overrides behave (colors/fonts) without breaking base.
+1. **Golden file tests** — Given (config + class set) -> `lattice.css` matches expected output.
+1. **Extractor tests** — Ensure class extraction works for your templating stack.
+1. **Config merge tests** — Ensure overrides behave (colors/fonts) without breaking base.
 
 ---
 
@@ -462,10 +456,10 @@ If you want “one-liner installs”:
 
 By end of first implementation day, aim for:
 
-* `ucss build` that:
+* `lcss build` that:
 
   * merges base+site config
-  * emits `tokens.css`
+  * emits `lattice.css`
   * scans `./src`
   * generates spacing + color + typography utilities for used classes
   * supports `md:` and `hover:`
@@ -476,9 +470,9 @@ By end of first implementation day, aim for:
 ## Repo layout example
 
 ```text
-ucss/
+lcss/
   cmd/
-    ucss/
+    lcss/
       main.go
   internal/
     config/
