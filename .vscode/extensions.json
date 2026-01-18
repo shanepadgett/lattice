@@ -1,11 +1,12 @@
 {
-    "recommendations": [
-        "davidanson.vscode-markdownlint",
-        "golang.go",
-        "editorconfig.editorconfig",
-        "jetpack-io.devbox",
-        "ecmel.vscode-html-css",
-        "pranaygp.vscode-css-peek",
-        "biomejs.biome"
-    ]
+	"recommendations": [
+		"davidanson.vscode-markdownlint",
+		"golang.go",
+		"editorconfig.editorconfig",
+		"jetpack-io.devbox",
+		"ecmel.vscode-html-css",
+		"pranaygp.vscode-css-peek",
+		"biomejs.biome",
+		"ms-vscode.makefile-tools"
+	]
 }

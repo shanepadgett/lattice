@@ -1,7 +1,9 @@
 {
 	"go.useLanguageServer": true,
 	"go.lintTool": "golangci-lint",
-	"go.lintFlags": ["--fast"],
+	"go.lintFlags": [
+		"--fast"
+	],
 	"editor.formatOnSave": true,
 	"go.formatTool": "goimports",
 	"editor.defaultFormatter": "biomejs.biome",
@@ -28,5 +30,15 @@
 		"ls -la": true,
 		"go": true,
 		"./lcss": true
-	}
+	},
+	"[markdown]": {
+		"editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
+	},
+	"[go.mod]": {
+		"editor.defaultFormatter": "golang.go"
+	},
+	"[jsonc]": {
+		"editor.defaultFormatter": "vscode.json-language-features"
+	},
+	"makefile.configureOnOpen": false
 }

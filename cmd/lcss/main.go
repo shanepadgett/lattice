@@ -2,9 +2,13 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 	"flag"
 	"fmt"
 	"os"
+	"strings"
+
+	"lcss/internal/config"
 )
 
 var version = "dev"
@@ -12,20 +16,40 @@ var commit = ""
 var date = ""
 
 func main() {
-	versionFlag := flag.Bool("version", false, "Print version and exit")
-	versionJSON := flag.Bool("version-json", false, "Print version info as JSON and exit")
-
-	flag.Usage = func() {
-		_, _ = fmt.Fprintln(os.Stdout, "lcss - Lattice CSS compiler")
-		_, _ = fmt.Fprintln(os.Stdout, "")
-		_, _ = fmt.Fprintln(os.Stdout, "Usage:")
-		_, _ = fmt.Fprintln(os.Stdout, "  lcss [options]")
-		_, _ = fmt.Fprintln(os.Stdout, "")
-		_, _ = fmt.Fprintln(os.Stdout, "Options:")
-		flag.PrintDefaults()
+	if len(os.Args) == 1 || strings.HasPrefix(os.Args[1], "-") {
+		runRoot(os.Args[1:])
+		return
 	}
 
-	flag.Parse()
+	switch os.Args[1] {
+	case "config":
+		if err := runConfig(os.Args[2:]); err != nil {
+			_, _ = fmt.Fprintln(os.Stderr, err)
+			os.Exit(1)
+		}
+	default:
+		printRootUsage()
+		os.Exit(1)
+	}
+}
+
+func runRoot(args []string) {
+	flags := flag.NewFlagSet("lcss", flag.ContinueOnError)
+	flags.SetOutput(os.Stdout)
+
+	versionFlag := flags.Bool("version", false, "Print version and exit")
+	versionJSON := flags.Bool("version-json", false, "Print version info as JSON and exit")
+
+	flags.Usage = func() {
+		printRootUsage()
+		_, _ = fmt.Fprintln(os.Stdout, "")
+		_, _ = fmt.Fprintln(os.Stdout, "Options:")
+		flags.PrintDefaults()
+	}
+
+	if err := flags.Parse(args); err != nil {
+		return
+	}
 
 	if *versionFlag || *versionJSON {
 		info := struct {
@@ -49,5 +73,73 @@ func main() {
 		os.Exit(0)
 	}
 
-	flag.Usage()
+	flags.Usage()
+}
+
+func runConfig(args []string) error {
+	if len(args) == 0 {
+		printConfigUsage()
+		return errors.New("config command requires a subcommand")
+	}
+
+	switch args[0] {
+	case "print":
+		return runConfigPrint(args[1:])
+	default:
+		printConfigUsage()
+		return fmt.Errorf("unknown config subcommand: %s", args[0])
+	}
+}
+
+func runConfigPrint(args []string) error {
+	flags := flag.NewFlagSet("config print", flag.ContinueOnError)
+	flags.SetOutput(os.Stdout)
+
+	basePath := flags.String("base", "", "Path to base config JSON")
+	sitePath := flags.String("site", "", "Path to site override config JSON (optional)")
+
+	flags.Usage = func() {
+		_, _ = fmt.Fprintln(os.Stdout, "Usage:")
+		_, _ = fmt.Fprintln(os.Stdout, "  lcss config print --base <path> [--site <path>]")
+		_, _ = fmt.Fprintln(os.Stdout, "")
+		_, _ = fmt.Fprintln(os.Stdout, "Options:")
+		flags.PrintDefaults()
+	}
+
+	if err := flags.Parse(args); err != nil {
+		return err
+	}
+	if *basePath == "" {
+		flags.Usage()
+		return errors.New("--base is required")
+	}
+
+	cfg, err := config.Load(*basePath, *sitePath)
+	if err != nil {
+		return err
+	}
+	if err := cfg.Validate(); err != nil {
+		return err
+	}
+
+	canonical := cfg.Canonicalize()
+	data, err := config.MarshalDeterministic(canonical)
+	if err != nil {
+		return err
+	}
+	_, err = os.Stdout.Write(data)
+	return err
+}
+
+func printRootUsage() {
+	_, _ = fmt.Fprintln(os.Stdout, "lcss - Lattice CSS compiler")
+	_, _ = fmt.Fprintln(os.Stdout, "")
+	_, _ = fmt.Fprintln(os.Stdout, "Usage:")
+	_, _ = fmt.Fprintln(os.Stdout, "  lcss [options]")
+	_, _ = fmt.Fprintln(os.Stdout, "  lcss config print --base <path> [--site <path>]")
+}
+
+func printConfigUsage() {
+	_, _ = fmt.Fprintln(os.Stdout, "Usage:")
+	_, _ = fmt.Fprintln(os.Stdout, "  lcss config print --base <path> [--site <path>]")
 }

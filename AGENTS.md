@@ -21,11 +21,6 @@
 - Build (fallback): `go build -o ./bin/lcss ./cmd/lcss`
 - Use `gofmt -w .` before providing summary if you edited Go files.
 
-## Codebase Discovery and Research
-
-- Prefer using `codebase-retrieval` tool to semantically search the codebase by concept and meaning
-- Use other search tools when semantic search does not fit
-
 ## MUST
 
 - Fix **ALL** problems in the vscode diagnostics before considering your work done; if that is unreasonable, present to the user why
