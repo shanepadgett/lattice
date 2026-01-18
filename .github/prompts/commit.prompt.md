@@ -1,5 +1,7 @@
 ---
-agent: agent
+agent: background
+model: Raptor mini (Preview) (copilot)
+description: This prompt is used to generate Conventional Commit messages and execute commits based on code changes.
 ---
 
 # Conventional Commits

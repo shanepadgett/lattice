@@ -21,6 +21,11 @@
 		"editor.defaultFormatter": "biomejs.biome"
 	},
 	"chat.tools.terminal.autoApprove": {
-		"git rev-parse": true
+		"git rev-parse": true,
+		"git status": true,
+		"git add*": true,
+		"git commit*": true,
+		"git add": true,
+		"git commit": true
 	}
 }
