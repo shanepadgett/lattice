@@ -11,6 +11,7 @@
 - **ABSOLUTELY NO** "it's not X, it's Y" parallelism (also called corrective antithesis or contrast framing)
 - Keep summaries very brief when requested; do not label them as summaries
 - Never describe how the answer will be structured; just give the answer
+- When asking questions, always include 2–3 options and a clear recommendation
 
 ## Command Line
 
@@ -27,8 +28,10 @@
 - **ONLY** update STATE.md when user has validated work is complete for a plan
 - Validate all work with formatting and making sure it builds
 - Whenever you implement something that exposes a new interface, cli command, build tool, anything, you must test out the functionality and fix any issues before considering the work complete
+- When adding agent-relevant features, update docs/AGENT-INSTRUCTIONS.md with concise usage guidance
 - Always clean up after any test artifacts are created unless the user is required to verify them
 
 ## MUST NOT
 
 - Add tests. There will be no tests in this repository
+- Introduce any new libraries. This repo is library free and we use standard library only.

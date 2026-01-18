@@ -29,7 +29,9 @@
 		"git commit": true,
 		"ls -la": true,
 		"go": true,
-		"./lcss": true
+		"./lcss": true,
+		"gofmt": true,
+		"make": true
 	},
 	"[markdown]": {
 		"editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
