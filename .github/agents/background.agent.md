@@ -1,6 +1,7 @@
 ---
 description: 'execute tasks as a background subagent for a primary agent'
 infer: true
+model: Raptor mini (Preview) (copilot)
 tools: ['execute', 'read', 'search', 'web', 'agent']
 ---
 
