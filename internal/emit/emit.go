@@ -1,7 +1,9 @@
 package emit
 
-type Artifacts struct{}
+type Artifacts struct {
+	TokensCSS []byte
+}
 
-func Write(_ Artifacts) error {
+func Write(_ Artifacts, _ string) error {
 	return nil
 }

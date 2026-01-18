@@ -25,6 +25,9 @@
 
 - Fix **ALL** problems in the vscode diagnostics before considering your work done; if that is unreasonable, present to the user why
 - **ONLY** update STATE.md when user has validated work is complete for a plan
+- Validate all work with formatting and making sure it builds
+- Whenever you implement something that exposes a new interface, cli command, build tool, anything, you must test out the functionality and fix any issues before considering the work complete
+- Always clean up after any test artifacts are created unless the user is required to verify them
 
 ## MUST NOT
 
