@@ -29,6 +29,7 @@
 ## MUST
 
 - Fix **ALL** problems in the vscode diagnostics before considering your work done; if that is unreasonable, present to the user why
+- **ONLY** update STATE.md when user has validated work is complete for a plan
 
 ## MUST NOT
 
