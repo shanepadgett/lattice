@@ -30,3 +30,24 @@ go.work.sum
 # Editor/IDE
 # .idea/
 # .vscode/
+
+# OS-specific
+# macOS
+.DS_Store
+Icon?
+._*
+.Spotlight-V100
+.Trashes
+.fseventsd/
+__MACOSX/
+.localized
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+.Trash-*
+.directory
