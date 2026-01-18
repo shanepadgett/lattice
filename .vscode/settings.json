@@ -1,5 +1,26 @@
 {
-    "chat.tools.terminal.autoApprove": {
-        "git rev-parse": true
-    }
+	"go.useLanguageServer": true,
+	"go.lintTool": "golangci-lint",
+	"go.lintFlags": ["--fast"],
+	"editor.formatOnSave": true,
+	"go.formatTool": "goimports",
+	"editor.defaultFormatter": "biomejs.biome",
+	"[go]": {
+		"editor.defaultFormatter": "golang.go",
+		"editor.codeActionsOnSave": {
+			"source.organizeImports": "explicit"
+		}
+	},
+	"[html]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[css]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[json]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"chat.tools.terminal.autoApprove": {
+		"git rev-parse": true
+	}
 }
