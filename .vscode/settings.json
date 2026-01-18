@@ -25,6 +25,8 @@
 		"git status": true,
 		"git add": true,
 		"git commit": true,
-		"ls -la": true
+		"ls -la": true,
+		"go": true,
+		"./lcss": true
 	}
 }
