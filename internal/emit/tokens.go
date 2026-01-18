@@ -56,7 +56,29 @@ func writeBlock(b *strings.Builder, selector string, entries []tokenEntry) {
 }
 
 func appendScaleTokens(entries []tokenEntry, scales map[string]map[string]string) []tokenEntry {
-	scaleOrder := []string{"space", "radius", "fontSize", "lineHeight", "fontWeight"}
+	scaleOrder := []string{
+		"space",
+		"size",
+		"radius",
+		"borderWidth",
+		"fontSize",
+		"lineHeight",
+		"fontWeight",
+		"letterSpacing",
+		"shadow",
+		"z",
+		"opacity",
+		"aspect",
+		"duration",
+		"easing",
+		"delay",
+		"translate",
+		"rotate",
+		"scale",
+		"maxWidth",
+		"maxHeight",
+		"container",
+	}
 	for _, scale := range scaleOrder {
 		values, ok := scales[scale]
 		if !ok || len(values) == 0 {
@@ -100,6 +122,14 @@ func scalePrefix(scale string) string {
 		return "line-height"
 	case "fontWeight":
 		return "font-weight"
+	case "borderWidth":
+		return "border-width"
+	case "letterSpacing":
+		return "letter-spacing"
+	case "maxWidth":
+		return "max-width"
+	case "maxHeight":
+		return "max-height"
 	default:
 		return scale
 	}

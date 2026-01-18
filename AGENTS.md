@@ -25,6 +25,7 @@
 - Build (preferred): `make build`  # outputs to `./bin/lcss`
 - Build (fallback): `go build -o ./bin/lcss ./cmd/lcss`
 - Use `gofmt -w .` before providing summary if you edited Go files.
+- Delete files with `rm -f` and folders with `rf -rf`
 
 ## MUST
 

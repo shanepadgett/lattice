@@ -15,7 +15,7 @@ var (
 	classActionPattern   = regexp.MustCompile(`(?s)\bclass\s*=\s*{{(.*?)}}`)
 	classNameAction      = regexp.MustCompile(`(?s)\bclassName\s*=\s*{{(.*?)}}`)
 	stringLiteralPattern = regexp.MustCompile(`"(?:\\.|[^"\\])*"|` + "`" + `[^` + "`" + `]*` + "`")
-	validClassPattern    = regexp.MustCompile(`^[a-zA-Z0-9-:_]+$`)
+	validClassPattern    = regexp.MustCompile(`^[a-zA-Z0-9-:_/%]+$`)
 )
 
 type Result struct {

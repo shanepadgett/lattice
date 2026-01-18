@@ -27,11 +27,27 @@ type Theme struct {
 }
 
 type Scales struct {
-	Space      map[string]string `json:"space,omitempty"`
-	Radius     map[string]string `json:"radius,omitempty"`
-	FontSize   map[string]string `json:"fontSize,omitempty"`
-	LineHeight map[string]string `json:"lineHeight,omitempty"`
-	FontWeight map[string]string `json:"fontWeight,omitempty"`
+	Space         map[string]string `json:"space,omitempty"`
+	Size          map[string]string `json:"size,omitempty"`
+	Radius        map[string]string `json:"radius,omitempty"`
+	BorderWidth   map[string]string `json:"borderWidth,omitempty"`
+	FontSize      map[string]string `json:"fontSize,omitempty"`
+	LineHeight    map[string]string `json:"lineHeight,omitempty"`
+	FontWeight    map[string]string `json:"fontWeight,omitempty"`
+	LetterSpacing map[string]string `json:"letterSpacing,omitempty"`
+	Shadow        map[string]string `json:"shadow,omitempty"`
+	ZIndex        map[string]string `json:"z,omitempty"`
+	Opacity       map[string]string `json:"opacity,omitempty"`
+	Aspect        map[string]string `json:"aspect,omitempty"`
+	Duration      map[string]string `json:"duration,omitempty"`
+	Easing        map[string]string `json:"easing,omitempty"`
+	Delay         map[string]string `json:"delay,omitempty"`
+	Translate     map[string]string `json:"translate,omitempty"`
+	Rotate        map[string]string `json:"rotate,omitempty"`
+	Scale         map[string]string `json:"scale,omitempty"`
+	MaxWidth      map[string]string `json:"maxWidth,omitempty"`
+	MaxHeight     map[string]string `json:"maxHeight,omitempty"`
+	Container     map[string]string `json:"container,omitempty"`
 }
 
 type Variants struct {
@@ -168,8 +184,14 @@ func NormalizeTokens(c Config) CanonicalTokens {
 	if c.Scales.Space != nil {
 		tokens.Scales["space"] = copyStringMap(c.Scales.Space)
 	}
+	if c.Scales.Size != nil {
+		tokens.Scales["size"] = copyStringMap(c.Scales.Size)
+	}
 	if c.Scales.Radius != nil {
 		tokens.Scales["radius"] = copyStringMap(c.Scales.Radius)
+	}
+	if c.Scales.BorderWidth != nil {
+		tokens.Scales["borderWidth"] = copyStringMap(c.Scales.BorderWidth)
 	}
 	if c.Scales.FontSize != nil {
 		tokens.Scales["fontSize"] = copyStringMap(c.Scales.FontSize)
@@ -179,6 +201,48 @@ func NormalizeTokens(c Config) CanonicalTokens {
 	}
 	if c.Scales.FontWeight != nil {
 		tokens.Scales["fontWeight"] = copyStringMap(c.Scales.FontWeight)
+	}
+	if c.Scales.LetterSpacing != nil {
+		tokens.Scales["letterSpacing"] = copyStringMap(c.Scales.LetterSpacing)
+	}
+	if c.Scales.Shadow != nil {
+		tokens.Scales["shadow"] = copyStringMap(c.Scales.Shadow)
+	}
+	if c.Scales.ZIndex != nil {
+		tokens.Scales["z"] = copyStringMap(c.Scales.ZIndex)
+	}
+	if c.Scales.Opacity != nil {
+		tokens.Scales["opacity"] = copyStringMap(c.Scales.Opacity)
+	}
+	if c.Scales.Aspect != nil {
+		tokens.Scales["aspect"] = copyStringMap(c.Scales.Aspect)
+	}
+	if c.Scales.Duration != nil {
+		tokens.Scales["duration"] = copyStringMap(c.Scales.Duration)
+	}
+	if c.Scales.Easing != nil {
+		tokens.Scales["easing"] = copyStringMap(c.Scales.Easing)
+	}
+	if c.Scales.Delay != nil {
+		tokens.Scales["delay"] = copyStringMap(c.Scales.Delay)
+	}
+	if c.Scales.Translate != nil {
+		tokens.Scales["translate"] = copyStringMap(c.Scales.Translate)
+	}
+	if c.Scales.Rotate != nil {
+		tokens.Scales["rotate"] = copyStringMap(c.Scales.Rotate)
+	}
+	if c.Scales.Scale != nil {
+		tokens.Scales["scale"] = copyStringMap(c.Scales.Scale)
+	}
+	if c.Scales.MaxWidth != nil {
+		tokens.Scales["maxWidth"] = copyStringMap(c.Scales.MaxWidth)
+	}
+	if c.Scales.MaxHeight != nil {
+		tokens.Scales["maxHeight"] = copyStringMap(c.Scales.MaxHeight)
+	}
+	if c.Scales.Container != nil {
+		tokens.Scales["container"] = copyStringMap(c.Scales.Container)
 	}
 
 	return tokens
