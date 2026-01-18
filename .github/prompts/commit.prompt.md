@@ -12,6 +12,7 @@ description: This prompt is used to generate Conventional Commit messages and ex
 - Group edits into coherent, self-contained concerns (things that must change together to work), but avoid over-splitting into many tiny file-by-file commits
 - Use multiple commits only for distinct, unrelated concerns
 - Prefer `git add -A && git commit -m "<message>"` for one commit, or add specific files when committing separately
+- Do not add additional commands to the commit execution beyond staging and committing. For instance no `|| true`
 - Write messages that describe what the change enables or fixes for changelogs
 
 ## Execute Commit

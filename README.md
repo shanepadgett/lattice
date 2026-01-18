@@ -22,4 +22,3 @@ Download artifacts:
 
 - From the GitHub Release page: open the release and click the attached binary for your platform.
 - Using GitHub CLI: `gh release download <tag> --pattern "lcss-*"` (downloads release assets matching `lcss-*`).
-
