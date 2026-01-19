@@ -63,9 +63,16 @@ type Build struct {
 }
 
 type EmitOptions struct {
-	TokensCSS bool `json:"tokensCss,omitempty"`
-	Base      bool `json:"base,omitempty"`
-	Manifest  bool `json:"manifest,omitempty"`
+	TokensCSS bool  `json:"tokensCss,omitempty"`
+	Base      *bool `json:"base,omitempty"`
+	Manifest  bool  `json:"manifest,omitempty"`
+}
+
+func (o EmitOptions) BaseEnabled() bool {
+	if o.Base == nil {
+		return true
+	}
+	return *o.Base
 }
 
 type Canonical struct {
@@ -87,6 +94,10 @@ func Default() Config {
 	return Config{
 		Separator: ":",
 	}
+}
+
+func boolPtr(value bool) *bool {
+	return &value
 }
 
 func Load(basePath, sitePath string) (Config, error) {
@@ -123,6 +134,9 @@ func Load(basePath, sitePath string) (Config, error) {
 	}
 	if cfg.Build.UnknownClassPolicy == "" {
 		cfg.Build.UnknownClassPolicy = "warn"
+	}
+	if cfg.Build.Emit.Base == nil {
+		cfg.Build.Emit.Base = boolPtr(true)
 	}
 
 	return cfg, nil

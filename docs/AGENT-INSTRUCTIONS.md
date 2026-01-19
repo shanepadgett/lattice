@@ -19,6 +19,7 @@ Keep this file short and practical. Document only what an agent needs to use the
 - Build lattice.css from config + content scan:
   - `lcss build --base <path> [--site <path>] [--out <path>] [--stdout]`
   - Uses `build.content` and `build.safelist` from config.
+- Base stylesheet is enabled by default; disable with `build.emit.base: false`.
 
 ## Class Scan
 

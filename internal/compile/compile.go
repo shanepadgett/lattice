@@ -32,7 +32,7 @@ func Build(canonical config.Canonical, result extract.Result) (Output, error) {
 		sections = append(sections, strings.TrimRight(string(tokens), "\n"))
 	}
 
-	if canonical.Config.Build.Emit.Base {
+	if canonical.Config.Build.Emit.BaseEnabled() {
 		sections = append(sections, strings.TrimRight(baseCSS(canonical), "\n"))
 	}
 
