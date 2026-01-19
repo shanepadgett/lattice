@@ -19,15 +19,18 @@ make build
 go build -o ./bin/lcss ./cmd/lcss
 ```
 
-### Create your configuration files
+### Configuration defaults
 
-Base config is required. Use configs/default.json as a starting point.
-Site config is optional and lets you override the base for a specific project.
+Lattice ships with sensible defaults built into the binary.
+If lattice.json exists in your project root, it is merged as overrides.
+Use configs/default.json as a reference when authoring your own overrides.
 
 ### Compile CSS
 
 ```bash
-./bin/lcss build --base configs/default.json --out dist/lattice.css
+./bin/lcss build
+# OR
+./bin/lcss build --out <directory>/<name>.css
 ```
 
 ### Include the generated CSS in your site
@@ -36,14 +39,14 @@ Add dist/lattice.css to your HTML or build pipeline.
 
 ## Configuration
 
-- Base config: a required JSON file with tokens, utilities, and other compile rules.
-- Site config: optional JSON overrides for a specific site.
-- Validate and view the merged config: ./bin/lcss config print --base configs/default.json --site path/to/site.json
+- Base config: embedded defaults with tokens, utilities, and compile rules.
+- Site config: optional lattice.json or --site overrides for a specific site.
+- Validate and view the merged config: ./bin/lcss config print [--site path/to/site.json]
 
 ## Common commands
 
-- Build CSS: ./bin/lcss build --base <path> [--site <path>] [--out <path>] [--stdout]
-- Watch and rebuild: ./bin/lcss watch --base <path> [--site <path>] [--out <path>] [--interval <dur>] [--once]
-- Emit tokens CSS: ./bin/lcss tokens --base <path> [--site <path>] [--out <path>] [--stdout]
-- Scan project usage: ./bin/lcss scan --base <path> [--site <path>] [--top <n>]
+- Build CSS: ./bin/lcss build [--site <path>] [--out <path>] [--stdout]
+- Watch and rebuild: ./bin/lcss watch [--site <path>] [--out <path>] [--interval <dur>] [--once]
+- Emit tokens CSS: ./bin/lcss tokens [--site <path>] [--out <path>] [--stdout]
+- Scan project usage: ./bin/lcss scan [--site <path>] [--top <n>]
 - Version info: ./bin/lcss --version

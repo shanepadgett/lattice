@@ -8,7 +8,12 @@ import (
 	"io"
 	"os"
 	"sort"
+
+	_ "embed"
 )
+
+//go:embed default.json
+var defaultConfigJSON []byte
 
 type Config struct {
 	SchemaVersion int               `json:"schemaVersion"`
@@ -126,13 +131,19 @@ func boolPtr(value bool) *bool {
 }
 
 func Load(basePath, sitePath string) (Config, error) {
+	var baseMap map[string]any
 	if basePath == "" {
-		return Config{}, errors.New("base config path is required")
-	}
-
-	baseMap, err := readJSONFile(basePath)
-	if err != nil {
-		return Config{}, fmt.Errorf("read base config: %w", err)
+		var err error
+		baseMap, err = readJSONBytes(defaultConfigJSON)
+		if err != nil {
+			return Config{}, fmt.Errorf("decode embedded base config: %w", err)
+		}
+	} else {
+		var err error
+		baseMap, err = readJSONFile(basePath)
+		if err != nil {
+			return Config{}, fmt.Errorf("read base config: %w", err)
+		}
 	}
 
 	merged := baseMap
@@ -165,6 +176,10 @@ func Load(basePath, sitePath string) (Config, error) {
 	}
 
 	return cfg, nil
+}
+
+func DefaultJSON() []byte {
+	return defaultConfigJSON
 }
 
 func (c Config) Validate() error {
@@ -332,6 +347,10 @@ func readJSONFile(path string) (map[string]any, error) {
 		return nil, err
 	}
 
+	return readJSONBytes(data)
+}
+
+func readJSONBytes(data []byte) (map[string]any, error) {
 	var out map[string]any
 	if err := json.Unmarshal(data, &out); err != nil {
 		return nil, err

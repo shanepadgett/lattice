@@ -124,12 +124,11 @@ func runConfigPrint(args []string) error {
 	flags := flag.NewFlagSet("config print", flag.ContinueOnError)
 	flags.SetOutput(os.Stdout)
 
-	basePath := flags.String("base", "", "Path to base config JSON")
 	sitePath := flags.String("site", "", "Path to site override config JSON (optional)")
 
 	flags.Usage = func() {
 		_, _ = fmt.Fprintln(os.Stdout, "Usage:")
-		_, _ = fmt.Fprintln(os.Stdout, "  lcss config print --base <path> [--site <path>]")
+		_, _ = fmt.Fprintln(os.Stdout, "  lcss config print [--site <path>]")
 		_, _ = fmt.Fprintln(os.Stdout, "")
 		_, _ = fmt.Fprintln(os.Stdout, "Options:")
 		flags.PrintDefaults()
@@ -138,12 +137,9 @@ func runConfigPrint(args []string) error {
 	if err := flags.Parse(args); err != nil {
 		return err
 	}
-	if *basePath == "" {
-		flags.Usage()
-		return errors.New("--base is required")
-	}
 
-	cfg, err := config.Load(*basePath, *sitePath)
+	resolvedSitePath := resolveSitePath(*sitePath)
+	cfg, err := config.Load("", resolvedSitePath)
 	if err != nil {
 		return err
 	}
@@ -165,23 +161,22 @@ func printRootUsage() {
 	_, _ = fmt.Fprintln(os.Stdout, "")
 	_, _ = fmt.Fprintln(os.Stdout, "Usage:")
 	_, _ = fmt.Fprintln(os.Stdout, "  lcss [options]")
-	_, _ = fmt.Fprintln(os.Stdout, "  lcss config print --base <path> [--site <path>]")
-	_, _ = fmt.Fprintln(os.Stdout, "  lcss tokens --base <path> [--site <path>] [--out <path>]")
-	_, _ = fmt.Fprintln(os.Stdout, "  lcss build --base <path> [--site <path>] [--out <path>] [--stdout]")
-	_, _ = fmt.Fprintln(os.Stdout, "  lcss watch --base <path> [--site <path>] [--out <path>] [--interval <dur>] [--once]")
-	_, _ = fmt.Fprintln(os.Stdout, "  lcss scan --base <path> [--site <path>] [--top <n>]")
+	_, _ = fmt.Fprintln(os.Stdout, "  lcss config print [--site <path>]")
+	_, _ = fmt.Fprintln(os.Stdout, "  lcss tokens [--site <path>] [--out <path>]")
+	_, _ = fmt.Fprintln(os.Stdout, "  lcss build [--site <path>] [--out <path>] [--stdout]")
+	_, _ = fmt.Fprintln(os.Stdout, "  lcss watch [--site <path>] [--out <path>] [--interval <dur>] [--once]")
+	_, _ = fmt.Fprintln(os.Stdout, "  lcss scan [--site <path>] [--top <n>]")
 }
 
 func printConfigUsage() {
 	_, _ = fmt.Fprintln(os.Stdout, "Usage:")
-	_, _ = fmt.Fprintln(os.Stdout, "  lcss config print --base <path> [--site <path>]")
+	_, _ = fmt.Fprintln(os.Stdout, "  lcss config print [--site <path>]")
 }
 
 func runTokens(args []string) error {
 	flags := flag.NewFlagSet("tokens", flag.ContinueOnError)
 	flags.SetOutput(os.Stdout)
 
-	basePath := flags.String("base", "", "Path to base config JSON")
 	sitePath := flags.String("site", "", "Path to site override config JSON (optional)")
 	outPath := flags.String("out", "dist/tokens.css", "Path to output tokens CSS")
 	stdout := flags.Bool("stdout", false, "Write tokens CSS to stdout instead of a file")
@@ -196,12 +191,9 @@ func runTokens(args []string) error {
 	if err := flags.Parse(args); err != nil {
 		return err
 	}
-	if *basePath == "" {
-		flags.Usage()
-		return errors.New("--base is required")
-	}
 
-	cfg, err := config.Load(*basePath, *sitePath)
+	resolvedSitePath := resolveSitePath(*sitePath)
+	cfg, err := config.Load("", resolvedSitePath)
 	if err != nil {
 		return err
 	}
@@ -228,14 +220,13 @@ func runTokens(args []string) error {
 
 func printTokensUsage() {
 	_, _ = fmt.Fprintln(os.Stdout, "Usage:")
-	_, _ = fmt.Fprintln(os.Stdout, "  lcss tokens --base <path> [--site <path>] [--out <path>]")
+	_, _ = fmt.Fprintln(os.Stdout, "  lcss tokens [--site <path>] [--out <path>]")
 }
 
 func runBuild(args []string) error {
 	flags := flag.NewFlagSet("build", flag.ContinueOnError)
 	flags.SetOutput(os.Stdout)
 
-	basePath := flags.String("base", "", "Path to base config JSON")
 	sitePath := flags.String("site", "", "Path to site override config JSON (optional)")
 	outPath := flags.String("out", "dist/lattice.css", "Path to output CSS")
 	stdout := flags.Bool("stdout", false, "Write CSS to stdout instead of a file")
@@ -250,12 +241,9 @@ func runBuild(args []string) error {
 	if err := flags.Parse(args); err != nil {
 		return err
 	}
-	if *basePath == "" {
-		flags.Usage()
-		return errors.New("--base is required")
-	}
 
-	cfg, err := config.Load(*basePath, *sitePath)
+	resolvedSitePath := resolveSitePath(*sitePath)
+	cfg, err := config.Load("", resolvedSitePath)
 	if err != nil {
 		return err
 	}
@@ -293,14 +281,13 @@ func runBuild(args []string) error {
 
 func printBuildUsage() {
 	_, _ = fmt.Fprintln(os.Stdout, "Usage:")
-	_, _ = fmt.Fprintln(os.Stdout, "  lcss build --base <path> [--site <path>] [--out <path>] [--stdout]")
+	_, _ = fmt.Fprintln(os.Stdout, "  lcss build [--site <path>] [--out <path>] [--stdout]")
 }
 
 func runWatch(args []string) error {
 	flags := flag.NewFlagSet("watch", flag.ContinueOnError)
 	flags.SetOutput(os.Stdout)
 
-	basePath := flags.String("base", "", "Path to base config JSON")
 	sitePath := flags.String("site", "", "Path to site override config JSON (optional)")
 	outPath := flags.String("out", "dist/lattice.css", "Path to output CSS")
 	interval := flags.Duration("interval", 500*time.Millisecond, "Polling interval for changes")
@@ -316,10 +303,6 @@ func runWatch(args []string) error {
 	if err := flags.Parse(args); err != nil {
 		return err
 	}
-	if *basePath == "" {
-		flags.Usage()
-		return errors.New("--base is required")
-	}
 	if *interval <= 0 {
 		return errors.New("--interval must be greater than zero")
 	}
@@ -328,7 +311,8 @@ func runWatch(args []string) error {
 	cachePath := cacheFilePath(*outPath)
 
 	for {
-		built, err := watchOnce(*basePath, *sitePath, *outPath, cachePath, &state)
+		resolvedSitePath := resolveSitePath(*sitePath)
+		built, err := watchOnce("", resolvedSitePath, *outPath, cachePath, &state)
 		if err != nil {
 			_, _ = fmt.Fprintln(os.Stderr, "watch error:", err)
 			if *once {
@@ -347,14 +331,13 @@ func runWatch(args []string) error {
 
 func printWatchUsage() {
 	_, _ = fmt.Fprintln(os.Stdout, "Usage:")
-	_, _ = fmt.Fprintln(os.Stdout, "  lcss watch --base <path> [--site <path>] [--out <path>] [--interval <dur>] [--once]")
+	_, _ = fmt.Fprintln(os.Stdout, "  lcss watch [--site <path>] [--out <path>] [--interval <dur>] [--once]")
 }
 
 func runScan(args []string) error {
 	flags := flag.NewFlagSet("scan", flag.ContinueOnError)
 	flags.SetOutput(os.Stdout)
 
-	basePath := flags.String("base", "", "Path to base config JSON")
 	sitePath := flags.String("site", "", "Path to site override config JSON (optional)")
 	top := flags.Int("top", 20, "Show top N classes by frequency (0 to disable)")
 	perFile := flags.Bool("per-file", false, "Show top N classes per file")
@@ -369,12 +352,9 @@ func runScan(args []string) error {
 	if err := flags.Parse(args); err != nil {
 		return err
 	}
-	if *basePath == "" {
-		flags.Usage()
-		return errors.New("--base is required")
-	}
 
-	cfg, err := config.Load(*basePath, *sitePath)
+	resolvedSitePath := resolveSitePath(*sitePath)
+	cfg, err := config.Load("", resolvedSitePath)
 	if err != nil {
 		return err
 	}
@@ -458,7 +438,7 @@ func runScan(args []string) error {
 
 func printScanUsage() {
 	_, _ = fmt.Fprintln(os.Stdout, "Usage:")
-	_, _ = fmt.Fprintln(os.Stdout, "  lcss scan --base <path> [--site <path>] [--top <n>] [--per-file]")
+	_, _ = fmt.Fprintln(os.Stdout, "  lcss scan [--site <path>] [--top <n>] [--per-file]")
 }
 
 type classCount struct {
@@ -543,8 +523,14 @@ func watchOnce(basePath, sitePath, outPath, cachePath string, state *watchState)
 
 func computeInputHash(basePath, sitePath string, contentFiles []string) (string, error) {
 	hasher := sha256.New()
-	if err := hashFileContents(hasher, basePath); err != nil {
-		return "", err
+	if basePath == "" {
+		if err := hashBytesContents(hasher, "embedded:default", config.DefaultJSON()); err != nil {
+			return "", err
+		}
+	} else {
+		if err := hashFileContents(hasher, basePath); err != nil {
+			return "", err
+		}
 	}
 	if sitePath != "" {
 		if err := hashFileContents(hasher, sitePath); err != nil {
@@ -574,6 +560,23 @@ func hashFileContents(hasher hash.Hash, path string) error {
 	_, _ = hasher.Write(data)
 	_, _ = fmt.Fprintln(hasher)
 	return nil
+}
+
+func hashBytesContents(hasher hash.Hash, label string, data []byte) error {
+	_, _ = fmt.Fprintf(hasher, "config:%s\n", label)
+	_, _ = hasher.Write(data)
+	_, _ = fmt.Fprintln(hasher)
+	return nil
+}
+
+func resolveSitePath(path string) string {
+	if path != "" {
+		return path
+	}
+	if fileExists("lattice.json") {
+		return "lattice.json"
+	}
+	return ""
 }
 
 func cacheFilePath(outPath string) string {
