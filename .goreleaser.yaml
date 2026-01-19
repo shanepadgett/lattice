@@ -8,6 +8,7 @@
 
 version: 2
 project_name: lcss
+dist: dist/release
 
 before:
   hooks:
