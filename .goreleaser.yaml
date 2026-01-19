@@ -15,6 +15,7 @@ before:
     - go mod tidy
     # you may remove this if you don't need go generate
     - go generate ./...
+    - make schema VERSION={{ .Tag }}
 
 builds:
   - id: lcss
@@ -56,6 +57,9 @@ changelog:
       - "^test:"
 
 release:
+  extra_files:
+    - glob: dist/lattice.schema.json
+      name_template: lattice.schema.json
   footer: >-
 
     ---

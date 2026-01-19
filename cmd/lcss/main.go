@@ -18,6 +18,8 @@ import (
 	"lcss/internal/config"
 	"lcss/internal/emit"
 	"lcss/internal/extract"
+	"lcss/internal/schema"
+	ver "lcss/internal/version"
 )
 
 var version = "dev"
@@ -57,6 +59,14 @@ func main() {
 		}
 	case "watch":
 		if err := runWatch(os.Args[2:]); err != nil {
+			if errors.Is(err, flag.ErrHelp) {
+				return
+			}
+			_, _ = fmt.Fprintln(os.Stderr, err)
+			os.Exit(1)
+		}
+	case "schema":
+		if err := runSchema(os.Args[2:]); err != nil {
 			if errors.Is(err, flag.ErrHelp) {
 				return
 			}
@@ -139,6 +149,28 @@ func runConfig(args []string) error {
 	}
 }
 
+func runSchema(args []string) error {
+	flags := flag.NewFlagSet("schema", flag.ContinueOnError)
+	flags.SetOutput(os.Stdout)
+
+	verFlag := flags.String("version", version, "Semver version for release asset $id, e.g. v1.2.3")
+	schemaVersion := flags.Int("schema-version", 0, "Schema major version (typically the binary major)")
+
+	flags.Usage = func() {
+		_, _ = fmt.Fprintln(os.Stdout, "Usage:")
+		_, _ = fmt.Fprintln(os.Stdout, "  lcss schema [--version vX.Y.Z] --schema-version X")
+		_, _ = fmt.Fprintln(os.Stdout, "")
+		_, _ = fmt.Fprintln(os.Stdout, "Options:")
+		flags.PrintDefaults()
+	}
+
+	if err := flags.Parse(args); err != nil {
+		return err
+	}
+
+	return schema.Generate(*verFlag, *schemaVersion)
+}
+
 func runConfigPrint(args []string) error {
 	flags := flag.NewFlagSet("config print", flag.ContinueOnError)
 	flags.SetOutput(os.Stdout)
@@ -161,6 +193,11 @@ func runConfigPrint(args []string) error {
 	cfg, err := config.Load("", resolvedSitePath)
 	if err != nil {
 		return err
+	}
+	if major, ok := binaryMajorVersion(); ok {
+		if err := cfg.ValidateMajorVersion(major); err != nil {
+			return err
+		}
 	}
 	if err := cfg.Validate(); err != nil {
 		return err
@@ -185,6 +222,7 @@ func printRootUsage() {
 	_, _ = fmt.Fprintln(os.Stdout, "  lcss build [--site <path>] [--out <path>] [--stdout] [--production]")
 	_, _ = fmt.Fprintln(os.Stdout, "  lcss watch [--site <path>] [--out <path>] [--interval <dur>] [--once]")
 	_, _ = fmt.Fprintln(os.Stdout, "  lcss scan [--site <path>] [--top <n>]")
+	_, _ = fmt.Fprintln(os.Stdout, "  lcss schema [--version vX.Y.Z] --schema-version X")
 }
 
 func printConfigUsage() {
@@ -215,6 +253,11 @@ func runTokens(args []string) error {
 	cfg, err := config.Load("", resolvedSitePath)
 	if err != nil {
 		return err
+	}
+	if major, ok := binaryMajorVersion(); ok {
+		if err := cfg.ValidateMajorVersion(major); err != nil {
+			return err
+		}
 	}
 	if err := cfg.Validate(); err != nil {
 		return err
@@ -266,6 +309,11 @@ func runBuild(args []string) error {
 	cfg, err := config.Load("", resolvedSitePath)
 	if err != nil {
 		return err
+	}
+	if major, ok := binaryMajorVersion(); ok {
+		if err := cfg.ValidateMajorVersion(major); err != nil {
+			return err
+		}
 	}
 	if err := cfg.Validate(); err != nil {
 		return err
@@ -390,6 +438,11 @@ func runScan(args []string) error {
 	if err != nil {
 		return err
 	}
+	if major, ok := binaryMajorVersion(); ok {
+		if err := cfg.ValidateMajorVersion(major); err != nil {
+			return err
+		}
+	}
 	if err := cfg.Validate(); err != nil {
 		return err
 	}
@@ -494,6 +547,11 @@ func watchOnce(basePath, sitePath, outPath, cachePath string, state *watchState)
 	cfg, err := config.Load(basePath, sitePath)
 	if err != nil {
 		return false, err
+	}
+	if major, ok := binaryMajorVersion(); ok {
+		if err := cfg.ValidateMajorVersion(major); err != nil {
+			return false, err
+		}
 	}
 	if err := cfg.Validate(); err != nil {
 		return false, err
@@ -669,4 +727,12 @@ func fileExists(path string) bool {
 		return false
 	}
 	return !info.IsDir()
+}
+
+func parseSemverMajor(v string) (int, bool) {
+	return ver.ParseSemverMajor(v)
+}
+
+func binaryMajorVersion() (int, bool) {
+	return ver.BinaryMajorVersion(version)
 }

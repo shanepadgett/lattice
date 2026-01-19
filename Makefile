@@ -9,7 +9,7 @@ COMMIT ?= $(shell git rev-parse --short HEAD)
 DATE ?= $(shell date -u +%Y-%m-%dT%H:%M:%SZ)
 LDFLAGS := -X 'main.version=$(VERSION)' -X 'main.commit=$(COMMIT)' -X 'main.date=$(DATE)'
 
-.PHONY: build build-release clean test
+.PHONY: build build-release schema clean test
 
 build:
 	@mkdir -p bin
@@ -21,6 +21,10 @@ build-release:
 	GOOS=$(GOOS) GOARCH=$(GOARCH) \
 	VERSION=$(VERSION) COMMIT=$(COMMIT) DATE=$(DATE) \
 	go build -ldflags "$(LDFLAGS)" -o dist/$(GOOS)_$(GOARCH)/lcss $(CMD)
+
+schema:
+	@mkdir -p dist
+	go run ./cmd/lcss schema --version "$(VERSION)" --schema-version 1
 
 test:
 	go test ./...

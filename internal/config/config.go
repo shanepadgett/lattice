@@ -27,6 +27,16 @@ type Config struct {
 	Build         Build             `json:"build,omitempty"`
 }
 
+func (c Config) ValidateMajorVersion(major int) error {
+	if major <= 0 {
+		return fmt.Errorf("invalid binary major version: %d", major)
+	}
+	if c.SchemaVersion != major {
+		return fmt.Errorf("schemaVersion must match binary major (%d)", major)
+	}
+	return nil
+}
+
 type Theme struct {
 	Colors map[string]string `json:"colors,omitempty"`
 	Font   map[string]string `json:"font,omitempty"`
