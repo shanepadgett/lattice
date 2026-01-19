@@ -14,4 +14,4 @@ MD041: false
 # Relax these rules to avoid spending time reformatting tables.
 MD055: false # table-pipe-style
 MD056: false # table-column-count
-
+MD060: false # table-column-style
