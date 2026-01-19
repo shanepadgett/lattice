@@ -11,6 +11,7 @@ CHECKSUMS_FILE="checksums.txt"
 
 VERSION=""
 OUT_DIR="$DEFAULT_OUT_DIR"
+TMPDIR=""
 
 usage() {
   cat <<'EOF'
@@ -115,16 +116,23 @@ normalize_os() {
   esac
 }
 
+cleanup() {
+  if [[ -n "${TMPDIR}" && -d "${TMPDIR}" ]]; then
+    rm -rf "${TMPDIR}"
+  fi
+}
+
 main() {
   local version
   local os
   local arch
   local asset
   local base_url
-  local tmpdir
   local archive_path
   local checksums_path
   local expected_checksum
+
+  trap cleanup EXIT
 
   version=$(resolve_version)
   os=$(normalize_os "$(uname -s)")
@@ -134,11 +142,10 @@ main() {
 
   log "Installing ${BINARY_NAME} ${version} to ${OUT_DIR}"
 
-  tmpdir=$(mktemp -d)
-  trap 'rm -rf "$tmpdir"' EXIT
+  TMPDIR=$(mktemp -d)
 
-  archive_path="$tmpdir/$asset"
-  checksums_path="$tmpdir/$CHECKSUMS_FILE"
+  archive_path="$TMPDIR/$asset"
+  checksums_path="$TMPDIR/$CHECKSUMS_FILE"
 
   curl -fsSL "$base_url/$asset" -o "$archive_path"
   curl -fsSL "$base_url/$CHECKSUMS_FILE" -o "$checksums_path"
@@ -151,12 +158,12 @@ main() {
   echo "${expected_checksum}  ${archive_path}" | sha256sum -c - >/dev/null 2>&1 || fail "Checksum verification failed"
 
   mkdir -p "$OUT_DIR"
-  tar -xzf "$archive_path" -C "$tmpdir"
-  if [[ ! -f "$tmpdir/$BINARY_NAME" ]]; then
+  tar -xzf "$archive_path" -C "$TMPDIR"
+  if [[ ! -f "$TMPDIR/$BINARY_NAME" ]]; then
     fail "Binary not found in archive"
   fi
 
-  mv "$tmpdir/$BINARY_NAME" "$OUT_DIR/$BINARY_NAME"
+  mv "$TMPDIR/$BINARY_NAME" "$OUT_DIR/$BINARY_NAME"
   chmod +x "$OUT_DIR/$BINARY_NAME"
 
   log "Installed ${OUT_DIR}/${BINARY_NAME}"
