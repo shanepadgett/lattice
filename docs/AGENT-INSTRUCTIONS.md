@@ -76,3 +76,7 @@ Keep this file short and practical. Document only what an agent needs to use the
 - Effects: `shadow`, `opacity`.
 - Layout: `z`, `aspect`, `maxWidth`, `maxHeight`, `container`.
 - Motion: `duration`, `easing`, `delay`, `translate`, `rotate`, `scale`.
+
+## Utilities Reference
+
+- Concise spec with examples: docs/UTILITIES.md

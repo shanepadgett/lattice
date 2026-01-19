@@ -27,6 +27,10 @@
 - Use `gofmt -w .` before providing summary if you edited Go files.
 - Delete files with `rm -f` and folders with `rf -rf`
 
+## Testing
+
+- Reference docs/UTILITIES.md for classes you can use
+
 ## MUST
 
 - Fix **ALL** problems in the vscode diagnostics before considering your work done; if that is unreasonable, present to the user why
