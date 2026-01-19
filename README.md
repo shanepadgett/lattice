@@ -12,7 +12,25 @@
 
 ## Getting started
 
-### Build the binary (outputs to ./bin/lcss)
+### Install the binary (latest release)
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/shanepadgett/lattice/main/install.sh | bash
+```
+
+### Install a specific version
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/shanepadgett/lattice/main/install.sh | bash -s -- --version v0.1.0
+```
+
+### Install to a project-local bin directory
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/shanepadgett/lattice/main/install.sh | bash -s -- --out-dir ./bin
+```
+
+### Build the binary from source (outputs to ./bin/lcss)
 
 ```bash
 make build

@@ -2,6 +2,15 @@
 
 Keep this file short and practical. Document only what an agent needs to use the tool correctly.
 
+## Install
+
+- Install latest release to user bin:
+  - `curl -fsSL https://raw.githubusercontent.com/shanepadgett/lattice/main/install.sh | bash`
+- Install a pinned version:
+  - `curl -fsSL https://raw.githubusercontent.com/shanepadgett/lattice/main/install.sh | bash -s -- --version vX.Y.Z`
+- Install to project-local bin:
+  - `curl -fsSL https://raw.githubusercontent.com/shanepadgett/lattice/main/install.sh | bash -s -- --out-dir ./bin`
+
 ## Config
 
 - Merge and validate config:
