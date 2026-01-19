@@ -96,17 +96,31 @@ Suggested structure (you can adjust naming):
   "themes": {
     "default": {
       "colors": {
-        "bg": "#0b0f14",
-        "fg": "#e6edf3",
-        "muted": "#9aa7b2",
-        "primary": "#7aa2f7",
-        "danger": "#f7768e"
+        "black": "#000000",
+        "white": "#ffffff",
+        "slate-100": "#e2e8f0",
+        "slate-300": "#94a3b8",
+        "slate-500": "#475569",
+        "slate-700": "#1f2a37",
+        "slate-900": "#0f172a",
+        "slate-950": "#070b12",
+        "blue-300": "#93c5fd",
+        "blue-500": "#3b82f6",
+        "blue-700": "#1d4ed8",
+        "red-300": "#fca5a5",
+        "red-500": "#ef4444",
+        "red-700": "#b91c1c"
       },
       "font": {
-        "sans": "ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial",
-        "mono": "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace"
+        "sans": "\"Inter\", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial",
+        "mono": "\"JetBrains Mono\", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace"
       }
     }
+  },
+  "fonts": {
+    "imports": [
+      "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    ]
   },
   "scales": {
     "space": {

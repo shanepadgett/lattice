@@ -7,6 +7,11 @@ Keep this file short and practical. Document only what an agent needs to use the
 - Merge and validate config:
   - `lcss config print --base <path> [--site <path>]`
   - Writes canonical config JSON to stdout.
+- Default config lives at configs/default.json; use it as `--base` or copy it for site overrides.
+- Font loading:
+  - `fonts.imports` emits `@import` rules at the top of the built CSS.
+  - `fonts.faces` emits `@font-face` blocks for self-hosted fonts.
+  - Enable with `build.emit.fontsCss: true`.
 
 ## Tokens
 
@@ -20,6 +25,13 @@ Keep this file short and practical. Document only what an agent needs to use the
   - `lcss build --base <path> [--site <path>] [--out <path>] [--stdout]`
   - Uses `build.content` and `build.safelist` from config.
 - Base stylesheet is enabled by default; disable with `build.emit.base: false`.
+
+## Watch
+
+- Watch and rebuild on config/content changes:
+  - `lcss watch --base <path> [--site <path>] [--out <path>] [--interval <dur>] [--once]`
+  - Writes a cache file at `.lcss.cache.json` next to the output CSS to skip unchanged rebuilds.
+  - `--once` runs a single incremental check and exits.
 
 ## Class Scan
 

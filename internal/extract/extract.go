@@ -80,6 +80,10 @@ func FromPaths(patterns []string, safelist []string) (Result, error) {
 	}, nil
 }
 
+func FilesFromPatterns(patterns []string) ([]string, error) {
+	return expandPatterns(patterns)
+}
+
 func expandPatterns(patterns []string) ([]string, error) {
 	seen := map[string]struct{}{}
 	var files []string

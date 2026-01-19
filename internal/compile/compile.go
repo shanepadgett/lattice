@@ -23,7 +23,13 @@ func Build(canonical config.Canonical, result extract.Result) (Output, error) {
 		policy = "warn"
 	}
 
-	sections := make([]string, 0, 3)
+	sections := make([]string, 0, 4)
+	if canonical.Config.Build.Emit.FontsCSS {
+		fonts := emit.FontsCSS(canonical.Config)
+		if len(fonts) > 0 {
+			sections = append(sections, strings.TrimRight(string(fonts), "\n"))
+		}
+	}
 	if canonical.Config.Build.Emit.TokensCSS {
 		tokens, err := emit.TokensCSS(canonical)
 		if err != nil {

@@ -16,6 +16,7 @@ type Config struct {
 	Separator     string            `json:"separator,omitempty"`
 	Breakpoints   map[string]string `json:"breakpoints,omitempty"`
 	Themes        map[string]Theme  `json:"themes,omitempty"`
+	Fonts         Fonts             `json:"fonts,omitempty"`
 	Scales        Scales            `json:"scales,omitempty"`
 	Variants      Variants          `json:"variants,omitempty"`
 	Build         Build             `json:"build,omitempty"`
@@ -24,6 +25,29 @@ type Config struct {
 type Theme struct {
 	Colors map[string]string `json:"colors,omitempty"`
 	Font   map[string]string `json:"font,omitempty"`
+}
+
+type Fonts struct {
+	Imports []string   `json:"imports,omitempty"`
+	Faces   []FontFace `json:"faces,omitempty"`
+}
+
+type FontFace struct {
+	Family            string       `json:"family"`
+	Style             string       `json:"style,omitempty"`
+	Weight            string       `json:"weight,omitempty"`
+	Stretch           string       `json:"stretch,omitempty"`
+	Display           string       `json:"display,omitempty"`
+	UnicodeRange      string       `json:"unicodeRange,omitempty"`
+	FeatureSettings   string       `json:"featureSettings,omitempty"`
+	VariationSettings string       `json:"variationSettings,omitempty"`
+	Src               []FontSource `json:"src,omitempty"`
+}
+
+type FontSource struct {
+	URL    string `json:"url"`
+	Format string `json:"format,omitempty"`
+	Tech   string `json:"tech,omitempty"`
 }
 
 type Scales struct {
@@ -63,6 +87,7 @@ type Build struct {
 }
 
 type EmitOptions struct {
+	FontsCSS  bool  `json:"fontsCss,omitempty"`
 	TokensCSS bool  `json:"tokensCss,omitempty"`
 	Base      *bool `json:"base,omitempty"`
 	Manifest  bool  `json:"manifest,omitempty"`
@@ -154,6 +179,9 @@ func (c Config) Validate() error {
 	if len(c.Scales.Space) == 0 {
 		return errors.New("scales.space is required")
 	}
+	if err := validateFonts(c.Fonts); err != nil {
+		return err
+	}
 	if c.Build.UnknownClassPolicy != "" {
 		switch c.Build.UnknownClassPolicy {
 		case "ignore", "warn", "error":
@@ -169,6 +197,23 @@ func (c Config) Validate() error {
 		for _, name := range c.Variants.Responsive {
 			if _, ok := c.Breakpoints[name]; !ok {
 				return fmt.Errorf("variants.responsive references unknown breakpoint: %s", name)
+			}
+		}
+	}
+	return nil
+}
+
+func validateFonts(fonts Fonts) error {
+	for i, face := range fonts.Faces {
+		if face.Family == "" {
+			return fmt.Errorf("fonts.faces[%d].family is required", i)
+		}
+		if len(face.Src) == 0 {
+			return fmt.Errorf("fonts.faces[%d].src is required", i)
+		}
+		for j, src := range face.Src {
+			if src.URL == "" {
+				return fmt.Errorf("fonts.faces[%d].src[%d].url is required", i, j)
 			}
 		}
 	}

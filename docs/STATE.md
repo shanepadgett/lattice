@@ -16,8 +16,8 @@ This file tracks progress through the plans in `docs/plans/`.
 |`05-utility-compiler.md`|Utility compiler|Completed|User approved. Verified `make build`.|2026-01-18|
 |`06-variants-pipeline.md`|Variants pipeline|Completed|Verified `make build`.|2026-01-18|
 |`07-base.md`|Base stylesheet|Completed|User approved. Verified `make build`.|2026-01-18|
-|`08-watch-caching.md`|Watch & caching|Not started||-|
-|`09-default-config.md`|Default config|Not started||-|
+|`08-watch-caching.md`|Watch & caching|Completed|Verified `gofmt -w cmd/lcss/main.go internal/extract/extract.go`, `make build`, and `./bin/lcss watch --base /tmp/lcss-watch-test/base.json --out /tmp/lcss-watch-test/dist/lattice.css --once`.|2026-01-18|
+|`09-default-config.md`|Default config|Completed|User approved. Verified `make build`, `./bin/lcss tokens --base configs/default.json --stdout`, and `./bin/lcss build --base configs/default.json --stdout` (temp `src` dir).|2026-01-18|
 |`10-testing.md`|Testing|Not started||-|
 
 ---
