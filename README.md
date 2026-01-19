@@ -31,6 +31,8 @@ Use configs/default.json as a reference when authoring your own overrides.
 ./bin/lcss build
 # OR
 ./bin/lcss build --out <directory>/<name>.css
+# Production build (only used classes)
+./bin/lcss build --production
 ```
 
 ### Include the generated CSS in your site
@@ -45,7 +47,8 @@ Add dist/lattice.css to your HTML or build pipeline.
 
 ## Common commands
 
-- Build CSS: ./bin/lcss build [--site <path>] [--out <path>] [--stdout]
+- Build CSS (full reference): ./bin/lcss build [--site <path>] [--out <path>] [--stdout]
+- Build CSS (production): ./bin/lcss build --production [--site <path>] [--out <path>] [--stdout]
 - Watch and rebuild: ./bin/lcss watch [--site <path>] [--out <path>] [--interval <dur>] [--once]
 - Emit tokens CSS: ./bin/lcss tokens [--site <path>] [--out <path>] [--stdout]
 - Scan project usage: ./bin/lcss scan [--site <path>] [--top <n>]

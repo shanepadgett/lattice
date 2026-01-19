@@ -21,10 +21,14 @@ Keep this file short and practical. Document only what an agent needs to use the
 
 ## Build
 
-- Build lattice.css from config + content scan:
-  - `lcss build --base <path> [--site <path>] [--out <path>] [--stdout]`
+- Build lattice.css (full reference build):
+  - `lcss build [--site <path>] [--out <path>] [--stdout]`
+  - Emits all utilities from the merged config; does not require `build.content`.
+- Build lattice.css (production build):
+  - `lcss build --production [--site <path>] [--out <path>] [--stdout]`
   - Uses `build.content` and `build.safelist` from config.
 - Base stylesheet is enabled by default; disable with `build.emit.base: false`.
+- Grid utilities default to 12 columns; override with `build.gridColumns`.
 
 ## Watch
 

@@ -328,6 +328,7 @@
   "build": {
     "content": ["./src/**/*.{html,tmpl,gohtml,tsx,jsx,vue,svelte,mdx}"],
     "safelist": [],
+    "gridColumns": 12,
     "unknownClassPolicy": "warn",
     "emit": {
       "fontsCss": true,

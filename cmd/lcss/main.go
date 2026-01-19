@@ -163,7 +163,7 @@ func printRootUsage() {
 	_, _ = fmt.Fprintln(os.Stdout, "  lcss [options]")
 	_, _ = fmt.Fprintln(os.Stdout, "  lcss config print [--site <path>]")
 	_, _ = fmt.Fprintln(os.Stdout, "  lcss tokens [--site <path>] [--out <path>]")
-	_, _ = fmt.Fprintln(os.Stdout, "  lcss build [--site <path>] [--out <path>] [--stdout]")
+	_, _ = fmt.Fprintln(os.Stdout, "  lcss build [--site <path>] [--out <path>] [--stdout] [--production]")
 	_, _ = fmt.Fprintln(os.Stdout, "  lcss watch [--site <path>] [--out <path>] [--interval <dur>] [--once]")
 	_, _ = fmt.Fprintln(os.Stdout, "  lcss scan [--site <path>] [--top <n>]")
 }
@@ -230,6 +230,7 @@ func runBuild(args []string) error {
 	sitePath := flags.String("site", "", "Path to site override config JSON (optional)")
 	outPath := flags.String("out", "dist/lattice.css", "Path to output CSS")
 	stdout := flags.Bool("stdout", false, "Write CSS to stdout instead of a file")
+	production := flags.Bool("production", false, "Emit only classes found in build.content (production build)")
 
 	flags.Usage = func() {
 		printBuildUsage()
@@ -250,17 +251,29 @@ func runBuild(args []string) error {
 	if err := cfg.Validate(); err != nil {
 		return err
 	}
-	if len(cfg.Build.Content) == 0 {
-		return errors.New("build.content is required")
-	}
-
-	result, err := extract.FromPaths(cfg.Build.Content, cfg.Build.Safelist)
-	if err != nil {
-		return err
-	}
 
 	canonical := cfg.Canonicalize()
-	output, err := compile.Build(canonical, result)
+	var output compile.Output
+	if *production {
+		if len(cfg.Build.Content) == 0 {
+			return errors.New("build.content is required for --production")
+		}
+		result, err := extract.FromPaths(cfg.Build.Content, cfg.Build.Safelist)
+		if err != nil {
+			return err
+		}
+		output, err = compile.Build(canonical, result)
+		if err != nil {
+			return err
+		}
+	} else {
+		classes := compile.AllClasses(canonical)
+		result := extract.Result{Classes: classes}
+		output, err = compile.Build(canonical, result)
+		if err != nil {
+			return err
+		}
+	}
 	if err != nil {
 		return err
 	}
@@ -281,7 +294,7 @@ func runBuild(args []string) error {
 
 func printBuildUsage() {
 	_, _ = fmt.Fprintln(os.Stdout, "Usage:")
-	_, _ = fmt.Fprintln(os.Stdout, "  lcss build [--site <path>] [--out <path>] [--stdout]")
+	_, _ = fmt.Fprintln(os.Stdout, "  lcss build [--site <path>] [--out <path>] [--stdout] [--production]")
 }
 
 func runWatch(args []string) error {

@@ -88,6 +88,7 @@ type Build struct {
 	Content            []string    `json:"content,omitempty"`
 	Safelist           []string    `json:"safelist,omitempty"`
 	Emit               EmitOptions `json:"emit,omitempty"`
+	GridColumns        int         `json:"gridColumns,omitempty"`
 	UnknownClassPolicy string      `json:"unknownClassPolicy,omitempty"`
 }
 
@@ -174,6 +175,9 @@ func Load(basePath, sitePath string) (Config, error) {
 	if cfg.Build.Emit.Base == nil {
 		cfg.Build.Emit.Base = boolPtr(true)
 	}
+	if cfg.Build.GridColumns == 0 {
+		cfg.Build.GridColumns = 12
+	}
 
 	return cfg, nil
 }
@@ -204,6 +208,9 @@ func (c Config) Validate() error {
 		default:
 			return fmt.Errorf("build.unknownClassPolicy must be one of ignore, warn, error")
 		}
+	}
+	if c.Build.GridColumns < 0 {
+		return errors.New("build.gridColumns must be zero or greater")
 	}
 	if len(c.Variants.Responsive) > 0 {
 		if c.Breakpoints == nil {
