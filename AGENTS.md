@@ -30,6 +30,8 @@
 ## Testing
 
 - Reference docs/UTILITIES.md for classes you can use
+- Launch examples with bunx serve examples and navigate to page without the .html extension
+- **REQUIRED** use `agent-browser` skill to navigate the site and validate/troubleshoot it
 
 ## MUST
 
