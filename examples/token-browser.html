@@ -1,0 +1,679 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lattice Token Browser</title>
+    <link rel="stylesheet" href="./lattice.css?v=20260118" />
+  </head>
+  <body class="min-h-screen bg-ink-950 text-ink-100 font-sans">
+    <header class="border border-ink-900">
+      <div class="container px-6 py-14">
+        <div class="flex flex-col gap-6">
+          <div class="flex items-center gap-4">
+            <div class="h-2 w-12 bg-violet-500 rounded-full"></div>
+            <p class="text-xs uppercase tracking-widest text-ink-500">Lattice token browser</p>
+          </div>
+          <h1 class="text-5xl font-bold text-white leading-tight">Foundations, rendered.</h1>
+          <p class="text-lg text-ink-400 max-w-4xl leading-relaxed">
+            This page renders every core token in its true visual form: full color blocks, spacing bars, real
+            paragraph wrapping for line heights, and tangible radii shapes. Everything is displayed using Lattice
+            utility classes.
+          </p>
+          <div class="flex items-center gap-2">
+            <div class="h-3 w-3 rounded bg-ink-100"></div>
+            <div class="h-3 w-3 rounded bg-blue-400"></div>
+            <div class="h-3 w-3 rounded bg-violet-400"></div>
+            <div class="h-3 w-3 rounded bg-teal-400"></div>
+            <div class="h-3 w-3 rounded bg-rose-400"></div>
+            <div class="h-3 w-3 rounded bg-amber-400"></div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="container px-6 py-16 flex flex-col gap-20">
+      <section class="flex flex-col gap-8">
+        <div>
+          <h2 class="text-3xl font-semibold text-white">Color palette</h2>
+          <p class="text-sm text-ink-400 mt-2">Columns show each palette from light to dark with hex values.</p>
+        </div>
+
+        <div class="grid gap-6 lg:grid-cols-8">
+          <div class="flex flex-col gap-3 w-28">
+            <p class="text-sm font-semibold uppercase tracking-widest text-ink-200">Ink</p>
+            <div class="grid gap-2">
+              <div class="h-14 rounded-lg bg-ink-50 text-ink-900 flex items-center justify-between px-4">
+                <span class="text-xs font-semibold">50</span>
+                <span class="text-xs">#eef3f9</span>
+              </div>
+              <div class="h-14 rounded-lg bg-ink-100 text-ink-900 flex items-center justify-between px-4">
+                <span class="text-xs font-semibold">100</span>
+                <span class="text-xs">#d8e2ee</span>
+              </div>
+              <div class="h-14 rounded-lg bg-ink-200 text-ink-900 flex items-center justify-between px-4">
+                <span class="text-xs font-semibold">200</span>
+                <span class="text-xs">#b9c7da</span>
+              </div>
+              <div class="h-14 rounded-lg bg-ink-300 text-ink-900 flex items-center justify-between px-4">
+                <span class="text-xs font-semibold">300</span>
+                <span class="text-xs">#9bb0c6</span>
+              </div>
+              <div class="h-14 rounded-lg bg-ink-400 text-ink-900 flex items-center justify-between px-4">
+                <span class="text-xs font-semibold">400</span>
+                <span class="text-xs">#73859f</span>
+              </div>
+              <div class="h-14 rounded-lg bg-ink-500 text-white flex items-center justify-between px-4">
+                <span class="text-xs font-semibold">500</span>
+                <span class="text-xs">#4a5b73</span>
+              </div>
+              <div class="h-14 rounded-lg bg-ink-700 text-white flex items-center justify-between px-4">
+                <span class="text-xs font-semibold">700</span>
+                <span class="text-xs">#273244</span>
+              </div>
+              <div class="h-14 rounded-lg bg-ink-900 text-white flex items-center justify-between px-4">
+                <span class="text-xs font-semibold">900</span>
+                <span class="text-xs">#121826</span>
+              </div>
+              <div class="h-14 rounded-lg bg-ink-950 text-white border border-ink-700 flex items-center justify-between px-4">
+                <span class="text-xs font-semibold">950</span>
+                <span class="text-xs">#0b0e14</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-3 w-28">
+            <p class="text-sm font-semibold uppercase tracking-widest text-ink-200">Blue</p>
+            <div class="grid gap-2">
+              <div class="h-14 rounded-lg bg-blue-50 text-ink-900 flex items-center justify-between px-4">
+                <span class="text-xs font-semibold">50</span>
+                <span class="text-xs">#eef5ff</span>
+              </div>
+              <div class="h-14 rounded-lg bg-blue-100 text-ink-900 flex items-center justify-between px-4">
+                <span class="text-xs font-semibold">100</span>
+                <span class="text-xs">#dfeaff</span>
+              </div>
+              <div class="h-14 rounded-lg bg-blue-200 text-ink-900 flex items-center justify-between px-4">
+                <span class="text-xs font-semibold">200</span>
+                <span class="text-xs">#c7dafc</span>
+              </div>
+              <div class="h-14 rounded-lg bg-blue-300 text-ink-900 flex items-center justify-between px-4">
+                <span class="text-xs font-semibold">300</span>
+                <span class="text-xs">#a8c5f4</span>
+              </div>
+              <div class="h-14 rounded-lg bg-blue-400 text-ink-900 flex items-center justify-between px-4">
+                <span class="text-xs font-semibold">400</span>
+                <span class="text-xs">#88aeea</span>
+              </div>
+              <div class="h-14 rounded-lg bg-blue-500 text-white flex items-center justify-between px-4">
+                <span class="text-xs font-semibold">500</span>
+                <span class="text-xs">#6c95dd</span>
+              </div>
+              <div class="h-14 rounded-lg bg-blue-700 text-white flex items-center justify-between px-4">
+                <span class="text-xs font-semibold">700</span>
+                <span class="text-xs">#4e6fbe</span>
+              </div>
+              <div class="h-14 rounded-lg bg-blue-900 text-white flex items-center justify-between px-4">
+                <span class="text-xs font-semibold">900</span>
+                <span class="text-xs">#324a84</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-3 w-28">
+            <p class="text-sm font-semibold uppercase tracking-widest text-ink-200">Violet</p>
+            <div class="grid gap-2">
+              <div class="h-14 rounded-lg bg-violet-50 text-ink-900 flex items-center justify-between px-4">
+                <span class="text-xs font-semibold">50</span>
+                <span class="text-xs">#f3f0ff</span>
+              </div>
+              <div class="h-14 rounded-lg bg-violet-100 text-ink-900 flex items-center justify-between px-4">
+                <span class="text-xs font-semibold">100</span>
+                <span class="text-xs">#e6e1ff</span>
+              </div>
+              <div class="h-14 rounded-lg bg-violet-200 text-ink-900 flex items-center justify-between px-4">
+                <span class="text-xs font-semibold">200</span>
+                <span class="text-xs">#d0c7fb</span>
+              </div>
+              <div class="h-14 rounded-lg bg-violet-300 text-ink-900 flex items-center justify-between px-4">
+                <span class="text-xs font-semibold">300</span>
+                <span class="text-xs">#b5a8f0</span>
+              </div>
+              <div class="h-14 rounded-lg bg-violet-400 text-ink-900 flex items-center justify-between px-4">
+                <span class="text-xs font-semibold">400</span>
+                <span class="text-xs">#9a89e1</span>
+              </div>
+              <div class="h-14 rounded-lg bg-violet-500 text-white flex items-center justify-between px-4">
+                <span class="text-xs font-semibold">500</span>
+                <span class="text-xs">#806ccd</span>
+              </div>
+              <div class="h-14 rounded-lg bg-violet-700 text-white flex items-center justify-between px-4">
+                <span class="text-xs font-semibold">700</span>
+                <span class="text-xs">#5e4aa8</span>
+              </div>
+              <div class="h-14 rounded-lg bg-violet-900 text-white flex items-center justify-between px-4">
+                <span class="text-xs font-semibold">900</span>
+                <span class="text-xs">#3d2d75</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-3 w-28">
+            <p class="text-sm font-semibold uppercase tracking-widest text-ink-200">Teal</p>
+            <div class="grid gap-2">
+              <div class="h-14 rounded-lg bg-teal-50 text-ink-900 flex items-center justify-between px-4">
+                <span class="text-xs font-semibold">50</span>
+                <span class="text-xs">#eefaf9</span>
+              </div>
+              <div class="h-14 rounded-lg bg-teal-100 text-ink-900 flex items-center justify-between px-4">
+                <span class="text-xs font-semibold">100</span>
+                <span class="text-xs">#d6f3f1</span>
+              </div>
+              <div class="h-14 rounded-lg bg-teal-200 text-ink-900 flex items-center justify-between px-4">
+                <span class="text-xs font-semibold">200</span>
+                <span class="text-xs">#b4e8e4</span>
+              </div>
+              <div class="h-14 rounded-lg bg-teal-300 text-ink-900 flex items-center justify-between px-4">
+                <span class="text-xs font-semibold">300</span>
+                <span class="text-xs">#8cd8d2</span>
+              </div>
+              <div class="h-14 rounded-lg bg-teal-400 text-ink-900 flex items-center justify-between px-4">
+                <span class="text-xs font-semibold">400</span>
+                <span class="text-xs">#64c2bb</span>
+              </div>
+              <div class="h-14 rounded-lg bg-teal-500 text-white flex items-center justify-between px-4">
+                <span class="text-xs font-semibold">500</span>
+                <span class="text-xs">#3ea8a1</span>
+              </div>
+              <div class="h-14 rounded-lg bg-teal-700 text-white flex items-center justify-between px-4">
+                <span class="text-xs font-semibold">700</span>
+                <span class="text-xs">#2b7c78</span>
+              </div>
+              <div class="h-14 rounded-lg bg-teal-900 text-white flex items-center justify-between px-4">
+                <span class="text-xs font-semibold">900</span>
+                <span class="text-xs">#1c5451</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-3 w-28">
+            <p class="text-sm font-semibold uppercase tracking-widest text-ink-200">Rose</p>
+            <div class="grid gap-2">
+              <div class="h-14 rounded-lg bg-rose-50 text-ink-900 flex items-center justify-between px-4">
+                <span class="text-xs font-semibold">50</span>
+                <span class="text-xs">#fff1f5</span>
+              </div>
+              <div class="h-14 rounded-lg bg-rose-100 text-ink-900 flex items-center justify-between px-4">
+                <span class="text-xs font-semibold">100</span>
+                <span class="text-xs">#ffe4ec</span>
+              </div>
+              <div class="h-14 rounded-lg bg-rose-200 text-ink-900 flex items-center justify-between px-4">
+                <span class="text-xs font-semibold">200</span>
+                <span class="text-xs">#fec8d8</span>
+              </div>
+              <div class="h-14 rounded-lg bg-rose-300 text-ink-900 flex items-center justify-between px-4">
+                <span class="text-xs font-semibold">300</span>
+                <span class="text-xs">#f5a5bf</span>
+              </div>
+              <div class="h-14 rounded-lg bg-rose-400 text-ink-900 flex items-center justify-between px-4">
+                <span class="text-xs font-semibold">400</span>
+                <span class="text-xs">#e781a5</span>
+              </div>
+              <div class="h-14 rounded-lg bg-rose-500 text-white flex items-center justify-between px-4">
+                <span class="text-xs font-semibold">500</span>
+                <span class="text-xs">#d45f8b</span>
+              </div>
+              <div class="h-14 rounded-lg bg-rose-700 text-white flex items-center justify-between px-4">
+                <span class="text-xs font-semibold">700</span>
+                <span class="text-xs">#a34368</span>
+              </div>
+              <div class="h-14 rounded-lg bg-rose-900 text-white flex items-center justify-between px-4">
+                <span class="text-xs font-semibold">900</span>
+                <span class="text-xs">#6e2d48</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-3 w-28">
+            <p class="text-sm font-semibold uppercase tracking-widest text-ink-200">Amber</p>
+            <div class="grid gap-2">
+              <div class="h-14 rounded-lg bg-amber-50 text-ink-900 flex items-center justify-between px-4">
+                <span class="text-xs font-semibold">50</span>
+                <span class="text-xs">#fff7e8</span>
+              </div>
+              <div class="h-14 rounded-lg bg-amber-100 text-ink-900 flex items-center justify-between px-4">
+                <span class="text-xs font-semibold">100</span>
+                <span class="text-xs">#ffedd0</span>
+              </div>
+              <div class="h-14 rounded-lg bg-amber-200 text-ink-900 flex items-center justify-between px-4">
+                <span class="text-xs font-semibold">200</span>
+                <span class="text-xs">#fdd9a8</span>
+              </div>
+              <div class="h-14 rounded-lg bg-amber-300 text-ink-900 flex items-center justify-between px-4">
+                <span class="text-xs font-semibold">300</span>
+                <span class="text-xs">#f7c17e</span>
+              </div>
+              <div class="h-14 rounded-lg bg-amber-400 text-ink-900 flex items-center justify-between px-4">
+                <span class="text-xs font-semibold">400</span>
+                <span class="text-xs">#e9a85a</span>
+              </div>
+              <div class="h-14 rounded-lg bg-amber-500 text-white flex items-center justify-between px-4">
+                <span class="text-xs font-semibold">500</span>
+                <span class="text-xs">#d88d3a</span>
+              </div>
+              <div class="h-14 rounded-lg bg-amber-700 text-white flex items-center justify-between px-4">
+                <span class="text-xs font-semibold">700</span>
+                <span class="text-xs">#a16222</span>
+              </div>
+              <div class="h-14 rounded-lg bg-amber-900 text-white flex items-center justify-between px-4">
+                <span class="text-xs font-semibold">900</span>
+                <span class="text-xs">#6d3e14</span>
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-col gap-3 w-28">
+            <p class="text-sm font-semibold uppercase tracking-widest text-ink-200">Black/White</p>
+            <div class="grid gap-2">
+              <div class="h-14 rounded-lg bg-white text-black flex items-center justify-between px-4">
+                <span class="text-xs font-semibold">50</span>
+                <span class="text-xs">#ffffff</span>
+              </div>
+              <div class="h-14 rounded-lg bg-black text-white flex items-center justify-between px-4">
+                <span class="text-xs font-semibold">100</span>
+                <span class="text-xs">#000000</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="flex flex-col gap-8">
+        <div>
+          <h2 class="text-3xl font-semibold text-white">Spacing scale</h2>
+          <p class="text-sm text-ink-400 mt-2">Bars are sized to the actual spacing values.</p>
+        </div>
+        <div class="bg-ink-900 border border-ink-900 rounded-2xl p-8 shadow-lg">
+          <div class="flex flex-col gap-4">
+            <div class="flex items-center gap-4">
+              <p class="text-xs text-ink-500 w-12">0</p>
+              <div class="h-4 w-64 bg-ink-700 rounded overflow-hidden">
+                <div class="h-4 w-0 bg-teal-500 rounded"></div>
+              </div>
+              <p class="text-xs text-ink-500">0</p>
+            </div>
+            <div class="flex items-center gap-4">
+              <p class="text-xs text-ink-500 w-12">1</p>
+              <div class="h-4 w-64 bg-ink-700 rounded overflow-hidden">
+                <div class="h-4 w-1 bg-teal-500 rounded"></div>
+              </div>
+              <p class="text-xs text-ink-500">0.25rem</p>
+            </div>
+            <div class="flex items-center gap-4">
+              <p class="text-xs text-ink-500 w-12">2</p>
+              <div class="h-4 w-64 bg-ink-700 rounded overflow-hidden">
+                <div class="h-4 w-2 bg-teal-500 rounded"></div>
+              </div>
+              <p class="text-xs text-ink-500">0.5rem</p>
+            </div>
+            <div class="flex items-center gap-4">
+              <p class="text-xs text-ink-500 w-12">3</p>
+              <div class="h-4 w-64 bg-ink-700 rounded overflow-hidden">
+                <div class="h-4 w-3 bg-teal-500 rounded"></div>
+              </div>
+              <p class="text-xs text-ink-500">0.75rem</p>
+            </div>
+            <div class="flex items-center gap-4">
+              <p class="text-xs text-ink-500 w-12">4</p>
+              <div class="h-4 w-64 bg-ink-700 rounded overflow-hidden">
+                <div class="h-4 w-4 bg-teal-500 rounded"></div>
+              </div>
+              <p class="text-xs text-ink-500">1rem</p>
+            </div>
+            <div class="flex items-center gap-4">
+              <p class="text-xs text-ink-500 w-12">5</p>
+              <div class="h-4 w-64 bg-ink-700 rounded overflow-hidden">
+                <div class="h-4 w-5 bg-teal-500 rounded"></div>
+              </div>
+              <p class="text-xs text-ink-500">1.25rem</p>
+            </div>
+            <div class="flex items-center gap-4">
+              <p class="text-xs text-ink-500 w-12">6</p>
+              <div class="h-4 w-64 bg-ink-700 rounded overflow-hidden">
+                <div class="h-4 w-6 bg-teal-500 rounded"></div>
+              </div>
+              <p class="text-xs text-ink-500">1.5rem</p>
+            </div>
+            <div class="flex items-center gap-4">
+              <p class="text-xs text-ink-500 w-12">8</p>
+              <div class="h-4 w-64 bg-ink-700 rounded overflow-hidden">
+                <div class="h-4 w-8 bg-teal-500 rounded"></div>
+              </div>
+              <p class="text-xs text-ink-500">2rem</p>
+            </div>
+            <div class="flex items-center gap-4">
+              <p class="text-xs text-ink-500 w-12">10</p>
+              <div class="h-4 w-64 bg-ink-700 rounded overflow-hidden">
+                <div class="h-4 w-10 bg-teal-500 rounded"></div>
+              </div>
+              <p class="text-xs text-ink-500">2.5rem</p>
+            </div>
+            <div class="flex items-center gap-4">
+              <p class="text-xs text-ink-500 w-12">12</p>
+              <div class="h-4 w-64 bg-ink-700 rounded overflow-hidden">
+                <div class="h-4 w-12 bg-teal-500 rounded"></div>
+              </div>
+              <p class="text-xs text-ink-500">3rem</p>
+            </div>
+            <div class="flex items-center gap-4">
+              <p class="text-xs text-ink-500 w-12">14</p>
+              <div class="h-4 w-64 bg-ink-700 rounded overflow-hidden">
+                <div class="h-4 w-14 bg-teal-500 rounded"></div>
+              </div>
+              <p class="text-xs text-ink-500">3.5rem</p>
+            </div>
+            <div class="flex items-center gap-4">
+              <p class="text-xs text-ink-500 w-12">16</p>
+              <div class="h-4 w-64 bg-ink-700 rounded overflow-hidden">
+                <div class="h-4 w-16 bg-teal-500 rounded"></div>
+              </div>
+              <p class="text-xs text-ink-500">4rem</p>
+            </div>
+            <div class="flex items-center gap-4">
+              <p class="text-xs text-ink-500 w-12">20</p>
+              <div class="h-4 w-64 bg-ink-700 rounded overflow-hidden">
+                <div class="h-4 w-20 bg-teal-500 rounded"></div>
+              </div>
+              <p class="text-xs text-ink-500">5rem</p>
+            </div>
+            <div class="flex items-center gap-4">
+              <p class="text-xs text-ink-500 w-12">24</p>
+              <div class="h-4 w-64 bg-ink-700 rounded overflow-hidden">
+                <div class="h-4 w-24 bg-teal-500 rounded"></div>
+              </div>
+              <p class="text-xs text-ink-500">6rem</p>
+            </div>
+            <div class="flex items-center gap-4">
+              <p class="text-xs text-ink-500 w-12">28</p>
+              <div class="h-4 w-64 bg-ink-700 rounded overflow-hidden">
+                <div class="h-4 w-28 bg-teal-500 rounded"></div>
+              </div>
+              <p class="text-xs text-ink-500">7rem</p>
+            </div>
+            <div class="flex items-center gap-4">
+              <p class="text-xs text-ink-500 w-12">32</p>
+              <div class="h-4 w-64 bg-ink-700 rounded overflow-hidden">
+                <div class="h-4 w-32 bg-teal-500 rounded"></div>
+              </div>
+              <p class="text-xs text-ink-500">8rem</p>
+            </div>
+            <div class="flex items-center gap-4">
+              <p class="text-xs text-ink-500 w-12">36</p>
+              <div class="h-4 w-64 bg-ink-700 rounded overflow-hidden">
+                <div class="h-4 w-36 bg-teal-500 rounded"></div>
+              </div>
+              <p class="text-xs text-ink-500">9rem</p>
+            </div>
+            <div class="flex items-center gap-4">
+              <p class="text-xs text-ink-500 w-12">40</p>
+              <div class="h-4 w-64 bg-ink-700 rounded overflow-hidden">
+                <div class="h-4 w-40 bg-teal-500 rounded"></div>
+              </div>
+              <p class="text-xs text-ink-500">10rem</p>
+            </div>
+            <div class="flex items-center gap-4">
+              <p class="text-xs text-ink-500 w-12">48</p>
+              <div class="h-4 w-64 bg-ink-700 rounded overflow-hidden">
+                <div class="h-4 w-48 bg-teal-500 rounded"></div>
+              </div>
+              <p class="text-xs text-ink-500">12rem</p>
+            </div>
+            <div class="flex items-center gap-4">
+              <p class="text-xs text-ink-500 w-12">56</p>
+              <div class="h-4 w-64 bg-ink-700 rounded overflow-hidden">
+                <div class="h-4 w-56 bg-teal-500 rounded"></div>
+              </div>
+              <p class="text-xs text-ink-500">14rem</p>
+            </div>
+            <div class="flex items-center gap-4">
+              <p class="text-xs text-ink-500 w-12">64</p>
+              <div class="h-4 w-64 bg-ink-700 rounded overflow-hidden">
+                <div class="h-4 w-64 bg-teal-500 rounded"></div>
+              </div>
+              <p class="text-xs text-ink-500">16rem</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="flex flex-col gap-8">
+        <div>
+          <h2 class="text-3xl font-semibold text-white">Typography</h2>
+          <p class="text-sm text-ink-400 mt-2">Families, sizes, weights, letter spacing, and line heights.</p>
+        </div>
+
+        <div class="grid gap-6 md:grid-cols-3">
+          <div class="bg-ink-900 border border-ink-900 rounded-2xl p-6 shadow-lg">
+            <p class="text-xs uppercase tracking-widest text-ink-500 mb-2">Sans</p>
+            <p class="text-2xl font-semibold text-white">Nunito Sans</p>
+            <p class="text-sm text-ink-400 mt-3">The quick brown fox jumps over the lazy dog.</p>
+          </div>
+          <div class="bg-ink-900 border border-ink-900 rounded-2xl p-6 shadow-lg font-serif">
+            <p class="text-xs uppercase tracking-widest text-ink-500 mb-2">Serif</p>
+            <p class="text-2xl font-semibold text-white">EB Garamond</p>
+            <p class="text-sm text-ink-400 mt-3">The quick brown fox jumps over the lazy dog.</p>
+          </div>
+          <div class="bg-ink-900 border border-ink-900 rounded-2xl p-6 shadow-lg font-mono">
+            <p class="text-xs uppercase tracking-widest text-ink-500 mb-2">Mono</p>
+            <p class="text-2xl font-semibold text-white">DM Mono</p>
+            <p class="text-sm text-ink-400 mt-3">The quick brown fox jumps over the lazy dog.</p>
+          </div>
+        </div>
+
+        <div class="bg-ink-900 border border-ink-900 rounded-2xl p-8 shadow-lg flex flex-col gap-4">
+          <p class="text-xs uppercase tracking-widest text-ink-500">Font sizes</p>
+          <div class="flex flex-col gap-3">
+            <div class="flex items-baseline gap-6">
+              <p class="text-xs text-ink-500 w-12">xs</p>
+              <p class="text-xs text-white">The quick brown fox</p>
+              <p class="text-xs text-ink-500">0.75rem</p>
+            </div>
+            <div class="flex items-baseline gap-6">
+              <p class="text-xs text-ink-500 w-12">sm</p>
+              <p class="text-sm text-white">The quick brown fox</p>
+              <p class="text-xs text-ink-500">0.875rem</p>
+            </div>
+            <div class="flex items-baseline gap-6">
+              <p class="text-xs text-ink-500 w-12">base</p>
+              <p class="text-base text-white">The quick brown fox</p>
+              <p class="text-xs text-ink-500">1rem</p>
+            </div>
+            <div class="flex items-baseline gap-6">
+              <p class="text-xs text-ink-500 w-12">lg</p>
+              <p class="text-lg text-white">The quick brown fox</p>
+              <p class="text-xs text-ink-500">1.125rem</p>
+            </div>
+            <div class="flex items-baseline gap-6">
+              <p class="text-xs text-ink-500 w-12">xl</p>
+              <p class="text-xl text-white">The quick brown fox</p>
+              <p class="text-xs text-ink-500">1.25rem</p>
+            </div>
+            <div class="flex items-baseline gap-6">
+              <p class="text-xs text-ink-500 w-12">2xl</p>
+              <p class="text-2xl text-white">The quick brown fox</p>
+              <p class="text-xs text-ink-500">1.5rem</p>
+            </div>
+            <div class="flex items-baseline gap-6">
+              <p class="text-xs text-ink-500 w-12">3xl</p>
+              <p class="text-3xl text-white">The quick brown fox</p>
+              <p class="text-xs text-ink-500">1.875rem</p>
+            </div>
+            <div class="flex items-baseline gap-6">
+              <p class="text-xs text-ink-500 w-12">4xl</p>
+              <p class="text-4xl text-white">The quick brown fox</p>
+              <p class="text-xs text-ink-500">2.25rem</p>
+            </div>
+            <div class="flex items-baseline gap-6">
+              <p class="text-xs text-ink-500 w-12">5xl</p>
+              <p class="text-5xl text-white">The quick brown fox</p>
+              <p class="text-xs text-ink-500">3rem</p>
+            </div>
+            <div class="flex items-baseline gap-6">
+              <p class="text-xs text-ink-500 w-12">6xl</p>
+              <p class="text-6xl text-white">The quick brown fox</p>
+              <p class="text-xs text-ink-500">3.75rem</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid gap-6 md:grid-cols-2">
+          <div class="bg-ink-900 border border-ink-900 rounded-2xl p-8 shadow-lg">
+            <p class="text-xs uppercase tracking-widest text-ink-500 mb-6">Font weights</p>
+            <div class="flex flex-col gap-4">
+              <div class="flex items-center gap-6">
+                <p class="text-xs text-ink-500 w-24">normal</p>
+                <p class="text-lg text-white font-normal">Lattice</p>
+                <p class="text-xs text-ink-500">400</p>
+              </div>
+              <div class="flex items-center gap-6">
+                <p class="text-xs text-ink-500 w-24">medium</p>
+                <p class="text-lg text-white font-medium">Lattice</p>
+                <p class="text-xs text-ink-500">500</p>
+              </div>
+              <div class="flex items-center gap-6">
+                <p class="text-xs text-ink-500 w-24">semibold</p>
+                <p class="text-lg text-white font-semibold">Lattice</p>
+                <p class="text-xs text-ink-500">600</p>
+              </div>
+              <div class="flex items-center gap-6">
+                <p class="text-xs text-ink-500 w-24">bold</p>
+                <p class="text-lg text-white font-bold">Lattice</p>
+                <p class="text-xs text-ink-500">700</p>
+              </div>
+            </div>
+          </div>
+          <div class="bg-ink-900 border border-ink-900 rounded-2xl p-8 shadow-lg">
+            <p class="text-xs uppercase tracking-widest text-ink-500 mb-6">Letter spacing</p>
+            <div class="flex flex-col gap-4">
+              <div class="flex flex-col gap-2">
+                <p class="text-xs text-ink-500">tighter</p>
+                <p class="text-base text-white tracking-tighter max-w-3xl">Lattice brings a deliberate cadence to interface text and product tone.</p>
+              </div>
+              <div class="flex flex-col gap-2">
+                <p class="text-xs text-ink-500">tight</p>
+                <p class="text-base text-white tracking-tight max-w-3xl">Lattice brings a deliberate cadence to interface text and product tone.</p>
+              </div>
+              <div class="flex flex-col gap-2">
+                <p class="text-xs text-ink-500">normal</p>
+                <p class="text-base text-white tracking-normal max-w-3xl">Lattice brings a deliberate cadence to interface text and product tone.</p>
+              </div>
+              <div class="flex flex-col gap-2">
+                <p class="text-xs text-ink-500">wide</p>
+                <p class="text-base text-white tracking-wide max-w-3xl">Lattice brings a deliberate cadence to interface text and product tone.</p>
+              </div>
+              <div class="flex flex-col gap-2">
+                <p class="text-xs text-ink-500">wider</p>
+                <p class="text-base text-white tracking-wider max-w-3xl">Lattice brings a deliberate cadence to interface text and product tone.</p>
+              </div>
+              <div class="flex flex-col gap-2">
+                <p class="text-xs text-ink-500">widest</p>
+                <p class="text-base text-white tracking-widest max-w-3xl">Lattice brings a deliberate cadence to interface text and product tone.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-ink-900 border border-ink-900 rounded-2xl p-8 shadow-lg">
+          <p class="text-xs uppercase tracking-widest text-ink-500 mb-6">Line heights</p>
+          <div class="grid gap-8 md:grid-cols-2">
+            <div class="flex flex-col gap-3">
+              <p class="text-xs text-ink-500">tight · 1.1</p>
+              <p class="text-sm text-ink-200 leading-tight max-w-3xl">
+                Tokens create a shared language between design and code. With tight line height, lines compress
+                and the paragraph becomes denser, revealing how space affects the rhythm of reading across UI copy.
+              </p>
+            </div>
+            <div class="flex flex-col gap-3">
+              <p class="text-xs text-ink-500">snug · 1.25</p>
+              <p class="text-sm text-ink-200 leading-snug max-w-3xl">
+                Tokens create a shared language between design and code. Snug line height keeps paragraphs compact
+                while leaving just enough air to preserve readability in longer passages and instructions.
+              </p>
+            </div>
+            <div class="flex flex-col gap-3">
+              <p class="text-xs text-ink-500">normal · 1.5</p>
+              <p class="text-sm text-ink-200 leading-normal max-w-3xl">
+                Tokens create a shared language between design and code. Normal line height is balanced and
+                versatile, suitable for product copy, documentation, and comfortable reading at most sizes.
+              </p>
+            </div>
+            <div class="flex flex-col gap-3">
+              <p class="text-xs text-ink-500">relaxed · 1.625</p>
+              <p class="text-sm text-ink-200 leading-relaxed max-w-3xl">
+                Tokens create a shared language between design and code. Relaxed line height opens the paragraph,
+                increasing clarity and making long-form content feel spacious and editorial.
+              </p>
+            </div>
+            <div class="flex flex-col gap-3">
+              <p class="text-xs text-ink-500">loose · 2</p>
+              <p class="text-sm text-ink-200 leading-loose max-w-3xl">
+                Tokens create a shared language between design and code. Loose line height gives the most air,
+                emphasizing calm, approachable reading when content needs a gentle pace.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="flex flex-col gap-8">
+        <div>
+          <h2 class="text-3xl font-semibold text-white">Radii</h2>
+          <p class="text-sm text-ink-400 mt-2">Each shape uses the true radius token.</p>
+        </div>
+        <div class="bg-ink-900 border border-ink-900 rounded-2xl p-8 shadow-lg">
+          <div class="grid gap-8 grid-cols-2 md:grid-cols-4">
+            <div class="flex flex-col items-center gap-3">
+              <div class="h-40 w-40 bg-ink-700 border border-ink-400 rounded-none shadow-sm"></div>
+              <p class="text-xs text-ink-300">none</p>
+              <p class="text-xs text-ink-500">0</p>
+            </div>
+            <div class="flex flex-col items-center gap-3">
+              <div class="h-40 w-40 bg-ink-700 border border-ink-400 rounded-sm shadow-sm"></div>
+              <p class="text-xs text-ink-300">sm</p>
+              <p class="text-xs text-ink-500">0.125rem</p>
+            </div>
+            <div class="flex flex-col items-center gap-3">
+              <div class="h-40 w-40 bg-ink-700 border border-ink-400 rounded shadow-sm"></div>
+              <p class="text-xs text-ink-300">default</p>
+              <p class="text-xs text-ink-500">0.375rem</p>
+            </div>
+            <div class="flex flex-col items-center gap-3">
+              <div class="h-40 w-40 bg-ink-700 border border-ink-400 rounded-md shadow-sm"></div>
+              <p class="text-xs text-ink-300">md</p>
+              <p class="text-xs text-ink-500">0.5rem</p>
+            </div>
+            <div class="flex flex-col items-center gap-3">
+              <div class="h-40 w-40 bg-ink-700 border border-ink-400 rounded-lg shadow-sm"></div>
+              <p class="text-xs text-ink-300">lg</p>
+              <p class="text-xs text-ink-500">0.75rem</p>
+            </div>
+            <div class="flex flex-col items-center gap-3">
+              <div class="h-40 w-40 bg-ink-700 border border-ink-400 rounded-xl shadow-sm"></div>
+              <p class="text-xs text-ink-300">xl</p>
+              <p class="text-xs text-ink-500">1rem</p>
+            </div>
+            <div class="flex flex-col items-center gap-3">
+              <div class="h-40 w-40 bg-ink-700 border border-ink-400 rounded-2xl shadow-sm"></div>
+              <p class="text-xs text-ink-300">2xl</p>
+              <p class="text-xs text-ink-500">1.5rem</p>
+            </div>
+            <div class="flex flex-col items-center gap-3">
+              <div class="h-40 w-40 bg-ink-700 border border-ink-400 rounded-full shadow-sm"></div>
+              <p class="text-xs text-ink-300">full</p>
+              <p class="text-xs text-ink-500">9999px</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

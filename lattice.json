@@ -1,5 +1,8 @@
 {
   "build": {
+    "content": [
+      "./examples/**/*.html"
+    ],
     "safelist": [
       "container",
       "block",
@@ -54,7 +57,6 @@
       "mb-2",
       "mb-4",
       "mb-6",
-      "mx-auto",
       "w-xs",
       "w-sm",
       "w-md",
