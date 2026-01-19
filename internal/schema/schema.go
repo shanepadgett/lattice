@@ -64,11 +64,16 @@ func buildRootSchema(latestID, releaseID string, schemaVersion int) schemaDoc {
 	return schemaDoc{
 		"$schema":              "https://json-schema.org/draft/2020-12/schema",
 		"$id":                  ids,
+		"ref":                  "Config",
 		"title":                "Lattice configuration",
 		"type":                 "object",
 		"additionalProperties": false,
 		"required":             []any{"schemaVersion", "themes", "scales"},
 		"properties": schemaDoc{
+			"$schema": schemaDoc{
+				"description": "JSON schema reference for configuration validation",
+				"type":        "string",
+			},
 			"schemaVersion": schemaDoc{
 				"type":  "integer",
 				"const": schemaVersion,
