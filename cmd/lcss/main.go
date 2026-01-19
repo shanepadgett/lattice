@@ -33,26 +33,41 @@ func main() {
 	switch os.Args[1] {
 	case "config":
 		if err := runConfig(os.Args[2:]); err != nil {
+			if errors.Is(err, flag.ErrHelp) {
+				return
+			}
 			_, _ = fmt.Fprintln(os.Stderr, err)
 			os.Exit(1)
 		}
 	case "tokens":
 		if err := runTokens(os.Args[2:]); err != nil {
+			if errors.Is(err, flag.ErrHelp) {
+				return
+			}
 			_, _ = fmt.Fprintln(os.Stderr, err)
 			os.Exit(1)
 		}
 	case "build":
 		if err := runBuild(os.Args[2:]); err != nil {
+			if errors.Is(err, flag.ErrHelp) {
+				return
+			}
 			_, _ = fmt.Fprintln(os.Stderr, err)
 			os.Exit(1)
 		}
 	case "watch":
 		if err := runWatch(os.Args[2:]); err != nil {
+			if errors.Is(err, flag.ErrHelp) {
+				return
+			}
 			_, _ = fmt.Fprintln(os.Stderr, err)
 			os.Exit(1)
 		}
 	case "scan":
 		if err := runScan(os.Args[2:]); err != nil {
+			if errors.Is(err, flag.ErrHelp) {
+				return
+			}
 			_, _ = fmt.Fprintln(os.Stderr, err)
 			os.Exit(1)
 		}
@@ -109,6 +124,10 @@ func runConfig(args []string) error {
 	if len(args) == 0 {
 		printConfigUsage()
 		return errors.New("config command requires a subcommand")
+	}
+	if args[0] == "--help" || args[0] == "-h" {
+		printConfigUsage()
+		return flag.ErrHelp
 	}
 
 	switch args[0] {
