@@ -9,93 +9,78 @@
   "properties": {
     "$schema": {
       "description": "JSON schema reference for configuration validation.",
-      "type": "string",
-      "examples": ["https://raw.githubusercontent.com/shanepadgett/lattice/main/configs/lattice.schema.json"]
+      "markdownDescription": "JSON schema reference for configuration validation. Example: `https://raw.githubusercontent.com/shanepadgett/lattice/main/configs/lattice.schema.json`.",
+      "type": "string"
     },
     "schemaVersion": {
       "description": "Reserved for future schema versioning.",
-      "type": "integer",
-      "examples": [1]
+      "markdownDescription": "Reserved for future schema versioning. Example: `1`.",
+      "type": "integer"
     },
     "classPrefix": {
       "description": "Prefix added to every generated class name.",
-      "type": "string",
-      "examples": ["lc-"]
+      "markdownDescription": "Prefix added to every generated class name. Example: `\"lc-\"`.",
+      "type": "string"
     },
     "separator": {
       "description": "Separator between class name parts and variants.",
-      "type": "string",
-      "examples": [":"]
+      "markdownDescription": "Separator between class name parts and variants. Example: `\":\"`.",
+      "type": "string"
     },
     "breakpoints": {
       "description": "Named breakpoints used for responsive variants.",
+      "markdownDescription": "Named breakpoints used for responsive variants. Example: `{ \"sm\": \"640px\", \"md\": \"768px\" }`.",
       "type": "object",
       "additionalProperties": {
         "type": "string"
-      },
-      "examples": [
-        {
-          "sm": "640px",
-          "md": "768px",
-          "lg": "1024px"
-        }
-      ]
+      }
     },
     "themes": {
       "description": "Named theme token sets. Use \"default\" for the base theme.",
+      "markdownDescription": "Named theme token sets. Use `\"default\"` for the base theme.",
       "type": "object",
       "additionalProperties": {
         "type": "object",
         "description": "Theme token group.",
+        "markdownDescription": "Theme token group, for example `{ \"colors\": { \"bg\": \"#0f172a\" } }`.",
         "additionalProperties": false,
         "properties": {
           "colors": {
             "description": "Color tokens for the theme.",
+            "markdownDescription": "Color tokens for the theme. Example: `{ \"bg\": \"#0f172a\", \"text\": \"#e2e8f0\" }`.",
             "type": "object",
             "additionalProperties": {
               "type": "string"
-            },
-            "examples": [
-              {
-                "bg": "#0f172a",
-                "text": "#e2e8f0",
-                "primary": "#38bdf8"
-              }
-            ]
+            }
           },
           "font": {
             "description": "Font tokens for the theme.",
+            "markdownDescription": "Font tokens for the theme. Example: `{ \"body\": \"Inter, sans-serif\" }`.",
             "type": "object",
             "additionalProperties": {
               "type": "string"
-            },
-            "examples": [
-              {
-                "body": "Inter, sans-serif",
-                "display": "Space Grotesk, sans-serif"
-              }
-            ]
+            }
           }
         }
       }
     },
     "fonts": {
       "description": "Font-face and import configuration for generated CSS.",
+      "markdownDescription": "Font-face and import configuration for generated CSS.",
       "type": "object",
       "additionalProperties": false,
       "properties": {
         "imports": {
           "description": "@import statements for external font stylesheets.",
+          "markdownDescription": "@import statements for external font stylesheets. Example: `[\"https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap\"]`.",
           "type": "array",
           "items": {
             "type": "string"
-          },
-          "examples": [
-            ["https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"]
-          ]
+          }
         },
         "faces": {
           "description": "Local font-face declarations to emit.",
+          "markdownDescription": "Local font-face declarations to emit.",
           "type": "array",
           "items": {
             "type": "object",
@@ -104,46 +89,47 @@
             "properties": {
               "family": {
                 "description": "Font-family name to use in CSS.",
-                "type": "string",
-                "examples": ["Inter"]
+                "markdownDescription": "Font-family name to use in CSS. Example: `\"Inter\"`.",
+                "type": "string"
               },
               "style": {
                 "description": "Font style (for example normal or italic).",
-                "type": "string",
-                "examples": ["normal", "italic"]
+                "markdownDescription": "Font style (for example normal or italic).",
+                "type": "string"
               },
               "weight": {
                 "description": "Font weight value or range.",
-                "type": "string",
-                "examples": ["400", "400 700"]
+                "markdownDescription": "Font weight value or range. Example: `\"400\"` or `\"400 700\"`.",
+                "type": "string"
               },
               "stretch": {
                 "description": "Font stretch descriptor.",
-                "type": "string",
-                "examples": ["100%"]
+                "markdownDescription": "Font stretch descriptor. Example: `\"100%\"`.",
+                "type": "string"
               },
               "display": {
                 "description": "Font-display strategy.",
-                "type": "string",
-                "examples": ["swap"]
+                "markdownDescription": "Font-display strategy. Example: `\"swap\"`.",
+                "type": "string"
               },
               "unicodeRange": {
                 "description": "Optional unicode-range descriptor.",
-                "type": "string",
-                "examples": ["U+000-5FF"]
+                "markdownDescription": "Optional unicode-range descriptor. Example: `\"U+000-5FF\"`.",
+                "type": "string"
               },
               "featureSettings": {
                 "description": "Optional font-feature-settings descriptor.",
-                "type": "string",
-                "examples": ["\"ss01\" 1"]
+                "markdownDescription": "Optional font-feature-settings descriptor. Example: `\"\\\"ss01\\\" 1\"`.",
+                "type": "string"
               },
               "variationSettings": {
                 "description": "Optional font-variation-settings descriptor.",
-                "type": "string",
-                "examples": ["\"wght\" 450"]
+                "markdownDescription": "Optional font-variation-settings descriptor. Example: `\"\\\"wght\\\" 450\"`.",
+                "type": "string"
               },
               "src": {
                 "description": "Sources for the @font-face declaration.",
+                "markdownDescription": "Sources for the @font-face declaration.",
                 "type": "array",
                 "minItems": 1,
                 "items": {
@@ -153,18 +139,18 @@
                   "properties": {
                     "url": {
                       "description": "URL for the font file.",
-                      "type": "string",
-                      "examples": ["/fonts/inter.woff2"]
+                      "markdownDescription": "URL for the font file. Example: `\"/fonts/inter.woff2\"`.",
+                      "type": "string"
                     },
                     "format": {
                       "description": "Font format hint.",
-                      "type": "string",
-                      "examples": ["woff2"]
+                      "markdownDescription": "Font format hint. Example: `\"woff2\"`.",
+                      "type": "string"
                     },
                     "tech": {
                       "description": "Font tech hint.",
-                      "type": "string",
-                      "examples": ["variations"]
+                      "markdownDescription": "Font tech hint. Example: `\"variations\"`.",
+                      "type": "string"
                     }
                   }
                 }
@@ -176,364 +162,263 @@
     },
     "scales": {
       "description": "Token scales used to generate utilities.",
+      "markdownDescription": "Token scales used to generate utilities.",
       "type": "object",
       "additionalProperties": false,
       "properties": {
         "space": {
           "description": "Spacing scale for padding, margin, and gaps.",
+          "markdownDescription": "Spacing scale for padding, margin, and gaps. Example: `{ \"0\": \"0\", \"1\": \"0.25rem\" }`.",
           "type": "object",
           "additionalProperties": {
             "type": "string"
-          },
-          "examples": [
-            {
-              "0": "0",
-              "1": "0.25rem",
-              "2": "0.5rem"
-            }
-          ]
+          }
         },
         "size": {
           "description": "General size scale used by width and height utilities.",
+          "markdownDescription": "General size scale used by width and height utilities. Example: `{ \"xs\": \"12rem\", \"md\": \"24rem\" }`.",
           "type": "object",
           "additionalProperties": {
             "type": "string"
-          },
-          "examples": [
-            {
-              "xs": "12rem",
-              "md": "24rem"
-            }
-          ]
+          }
         },
         "radius": {
           "description": "Border radius scale.",
+          "markdownDescription": "Border radius scale. Example: `{ \"sm\": \"4px\", \"lg\": \"12px\" }`.",
           "type": "object",
           "additionalProperties": {
             "type": "string"
-          },
-          "examples": [
-            {
-              "sm": "4px",
-              "lg": "12px"
-            }
-          ]
+          }
         },
         "borderWidth": {
           "description": "Border width scale.",
+          "markdownDescription": "Border width scale. Example: `{ \"thin\": \"1px\", \"thick\": \"3px\" }`.",
           "type": "object",
           "additionalProperties": {
             "type": "string"
-          },
-          "examples": [
-            {
-              "thin": "1px",
-              "thick": "3px"
-            }
-          ]
+          }
         },
         "fontSize": {
           "description": "Font size scale.",
+          "markdownDescription": "Font size scale. Example: `{ \"sm\": \"0.875rem\", \"xl\": \"1.25rem\" }`.",
           "type": "object",
           "additionalProperties": {
             "type": "string"
-          },
-          "examples": [
-            {
-              "sm": "0.875rem",
-              "xl": "1.25rem"
-            }
-          ]
+          }
         },
         "lineHeight": {
           "description": "Line height scale.",
+          "markdownDescription": "Line height scale. Example: `{ \"tight\": \"1.1\", \"relaxed\": \"1.6\" }`.",
           "type": "object",
           "additionalProperties": {
             "type": "string"
-          },
-          "examples": [
-            {
-              "tight": "1.1",
-              "relaxed": "1.6"
-            }
-          ]
+          }
         },
         "fontWeight": {
           "description": "Font weight scale.",
+          "markdownDescription": "Font weight scale. Example: `{ \"regular\": \"400\", \"bold\": \"700\" }`.",
           "type": "object",
           "additionalProperties": {
             "type": "string"
-          },
-          "examples": [
-            {
-              "regular": "400",
-              "bold": "700"
-            }
-          ]
+          }
         },
         "letterSpacing": {
           "description": "Letter spacing scale.",
+          "markdownDescription": "Letter spacing scale. Example: `{ \"tight\": \"-0.02em\", \"wide\": \"0.08em\" }`.",
           "type": "object",
           "additionalProperties": {
             "type": "string"
-          },
-          "examples": [
-            {
-              "tight": "-0.02em",
-              "wide": "0.08em"
-            }
-          ]
+          }
         },
         "shadow": {
           "description": "Box shadow scale.",
+          "markdownDescription": "Box shadow scale. Example: `{ \"sm\": \"0 1px 2px rgba(0,0,0,0.12)\" }`.",
           "type": "object",
           "additionalProperties": {
             "type": "string"
-          },
-          "examples": [
-            {
-              "sm": "0 1px 2px rgba(0,0,0,0.12)",
-              "lg": "0 12px 24px rgba(0,0,0,0.18)"
-            }
-          ]
+          }
         },
         "z": {
           "description": "Z-index scale.",
+          "markdownDescription": "Z-index scale. Example: `{ \"base\": \"0\", \"modal\": \"40\" }`.",
           "type": "object",
           "additionalProperties": {
             "type": "string"
-          },
-          "examples": [
-            {
-              "base": "0",
-              "modal": "40"
-            }
-          ]
+          }
         },
         "opacity": {
           "description": "Opacity scale.",
+          "markdownDescription": "Opacity scale. Example: `{ \"50\": \"0.5\", \"90\": \"0.9\" }`.",
           "type": "object",
           "additionalProperties": {
             "type": "string"
-          },
-          "examples": [
-            {
-              "50": "0.5",
-              "90": "0.9"
-            }
-          ]
+          }
         },
         "aspect": {
           "description": "Aspect ratio scale.",
+          "markdownDescription": "Aspect ratio scale. Example: `{ \"square\": \"1 / 1\", \"video\": \"16 / 9\" }`.",
           "type": "object",
           "additionalProperties": {
             "type": "string"
-          },
-          "examples": [
-            {
-              "square": "1 / 1",
-              "video": "16 / 9"
-            }
-          ]
+          }
         },
         "duration": {
           "description": "Animation duration scale.",
+          "markdownDescription": "Animation duration scale. Example: `{ \"fast\": \"150ms\", \"slow\": \"500ms\" }`.",
           "type": "object",
           "additionalProperties": {
             "type": "string"
-          },
-          "examples": [
-            {
-              "fast": "150ms",
-              "slow": "500ms"
-            }
-          ]
+          }
         },
         "easing": {
           "description": "Timing function scale.",
+          "markdownDescription": "Timing function scale. Example: `{ \"standard\": \"cubic-bezier(0.2, 0, 0, 1)\" }`.",
           "type": "object",
           "additionalProperties": {
             "type": "string"
-          },
-          "examples": [
-            {
-              "standard": "cubic-bezier(0.2, 0, 0, 1)"
-            }
-          ]
+          }
         },
         "delay": {
           "description": "Animation delay scale.",
+          "markdownDescription": "Animation delay scale. Example: `{ \"none\": \"0ms\", \"sm\": \"100ms\" }`.",
           "type": "object",
           "additionalProperties": {
             "type": "string"
-          },
-          "examples": [
-            {
-              "none": "0ms",
-              "sm": "100ms"
-            }
-          ]
+          }
         },
         "translate": {
           "description": "Translate distance scale.",
+          "markdownDescription": "Translate distance scale. Example: `{ \"xs\": \"4px\", \"lg\": \"24px\" }`.",
           "type": "object",
           "additionalProperties": {
             "type": "string"
-          },
-          "examples": [
-            {
-              "xs": "4px",
-              "lg": "24px"
-            }
-          ]
+          }
         },
         "rotate": {
           "description": "Rotation angle scale.",
+          "markdownDescription": "Rotation angle scale. Example: `{ \"1\": \"1deg\", \"45\": \"45deg\" }`.",
           "type": "object",
           "additionalProperties": {
             "type": "string"
-          },
-          "examples": [
-            {
-              "1": "1deg",
-              "45": "45deg"
-            }
-          ]
+          }
         },
         "scale": {
           "description": "Scale factor values.",
+          "markdownDescription": "Scale factor values. Example: `{ \"95\": \"0.95\", \"105\": \"1.05\" }`.",
           "type": "object",
           "additionalProperties": {
             "type": "string"
-          },
-          "examples": [
-            {
-              "95": "0.95",
-              "105": "1.05"
-            }
-          ]
+          }
         },
         "maxWidth": {
           "description": "Maximum width scale.",
+          "markdownDescription": "Maximum width scale. Example: `{ \"content\": \"70ch\", \"wide\": \"1200px\" }`.",
           "type": "object",
           "additionalProperties": {
             "type": "string"
-          },
-          "examples": [
-            {
-              "content": "70ch",
-              "wide": "1200px"
-            }
-          ]
+          }
         },
         "maxHeight": {
           "description": "Maximum height scale.",
+          "markdownDescription": "Maximum height scale. Example: `{ \"screen\": \"100vh\", \"video\": \"90vh\" }`.",
           "type": "object",
           "additionalProperties": {
             "type": "string"
-          },
-          "examples": [
-            {
-              "screen": "100vh",
-              "video": "90vh"
-            }
-          ]
+          }
         },
         "container": {
           "description": "Container width scale used by layout utilities.",
+          "markdownDescription": "Container width scale used by layout utilities. Example: `{ \"sm\": \"640px\", \"lg\": \"1024px\" }`.",
           "type": "object",
           "additionalProperties": {
             "type": "string"
-          },
-          "examples": [
-            {
-              "sm": "640px",
-              "lg": "1024px"
-            }
-          ]
+          }
         }
       }
     },
     "variants": {
       "description": "Variant configuration for responsive and stateful modifiers.",
+      "markdownDescription": "Variant configuration for responsive and stateful modifiers.",
       "type": "object",
       "additionalProperties": false,
       "properties": {
         "responsive": {
           "description": "Responsive variant order based on breakpoint names.",
+          "markdownDescription": "Responsive variant order based on breakpoint names. Example: `[\"sm\", \"md\", \"lg\"]`.",
           "type": "array",
           "items": {
             "type": "string"
-          },
-          "examples": [["sm", "md", "lg"]]
+          }
         },
         "state": {
           "description": "State variants such as hover, focus, or active.",
+          "markdownDescription": "State variants such as hover, focus, or active. Example: `[\"hover\", \"focus\", \"active\"]`.",
           "type": "array",
           "items": {
             "type": "string"
-          },
-          "examples": [["hover", "focus", "active"]]
+          }
         }
       }
     },
     "build": {
       "description": "Build and extraction settings.",
+      "markdownDescription": "Build and extraction settings.",
       "type": "object",
       "additionalProperties": false,
       "properties": {
         "content": {
           "description": "Glob patterns or files to scan for class usage.",
+          "markdownDescription": "Glob patterns or files to scan for class usage. Example: `[\"src/**/*.{html,ts,tsx}\"]`.",
           "type": "array",
           "items": {
             "type": "string"
-          },
-          "examples": [["src/**/*.{html,ts,tsx}"]]
+          }
         },
         "safelist": {
           "description": "Class names to always include, regardless of scan results.",
+          "markdownDescription": "Class names to always include, regardless of scan results. Example: `[\"container\", \"grid-cols-12\"]`.",
           "type": "array",
           "items": {
             "type": "string"
-          },
-          "examples": [["container", "grid-cols-12"]]
+          }
         },
         "gridColumns": {
           "description": "Number of grid columns for grid utilities.",
+          "markdownDescription": "Number of grid columns for grid utilities. Example: `12`.",
           "type": "integer",
-          "minimum": 0,
-          "examples": [12]
+          "minimum": 0
         },
         "unknownClassPolicy": {
           "description": "How to handle unknown classes during build.",
+          "markdownDescription": "How to handle unknown classes during build. Example: `\"warn\"`.",
           "type": "string",
-          "enum": ["ignore", "warn", "error"],
-          "examples": ["warn"]
+          "enum": ["ignore", "warn", "error"]
         },
         "emit": {
           "description": "Toggle build artifacts.",
+          "markdownDescription": "Toggle build artifacts.",
           "type": "object",
           "additionalProperties": false,
           "properties": {
             "fontsCss": {
               "description": "Emit fonts.css alongside the main CSS.",
-              "type": "boolean",
-              "examples": [true]
+              "markdownDescription": "Emit fonts.css alongside the main CSS. Example: `true`.",
+              "type": "boolean"
             },
             "tokensCss": {
               "description": "Emit tokens.css alongside the main CSS.",
-              "type": "boolean",
-              "examples": [true]
+              "markdownDescription": "Emit tokens.css alongside the main CSS. Example: `true`.",
+              "type": "boolean"
             },
             "base": {
               "description": "Emit base CSS reset and primitives.",
-              "type": "boolean",
-              "examples": [true]
+              "markdownDescription": "Emit base CSS reset and primitives. Example: `true`.",
+              "type": "boolean"
             },
             "manifest": {
               "description": "Emit manifest.json with class metadata.",
-              "type": "boolean",
-              "examples": [false]
+              "markdownDescription": "Emit manifest.json with class metadata. Example: `false`.",
+              "type": "boolean"
             }
           }
         }
