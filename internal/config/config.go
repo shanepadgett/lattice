@@ -31,9 +31,6 @@ func (c Config) ValidateMajorVersion(major int) error {
 	if major <= 0 {
 		return fmt.Errorf("invalid binary major version: %d", major)
 	}
-	if c.SchemaVersion != major {
-		return fmt.Errorf("schemaVersion must match binary major (%d)", major)
-	}
 	return nil
 }
 
@@ -197,9 +194,6 @@ func DefaultJSON() []byte {
 }
 
 func (c Config) Validate() error {
-	if c.SchemaVersion == 0 {
-		return errors.New("schemaVersion is required")
-	}
 	if c.Themes == nil || c.Themes["default"].Colors == nil && c.Themes["default"].Font == nil {
 		if _, ok := c.Themes["default"]; !ok {
 			return errors.New("themes.default is required")

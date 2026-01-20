@@ -1,0 +1,310 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/shanepadgett/lattice/main/configs/lattice.schema.json",
+  "ref": "Config",
+  "title": "Lattice configuration",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "description": "JSON schema reference for configuration validation",
+      "type": "string"
+    },
+    "schemaVersion": {
+      "type": "integer"
+    },
+    "classPrefix": {
+      "type": "string"
+    },
+    "separator": {
+      "type": "string"
+    },
+    "breakpoints": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "themes": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "colors": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "font": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "fonts": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "imports": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "faces": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["family", "src"],
+            "properties": {
+              "family": {
+                "type": "string"
+              },
+              "style": {
+                "type": "string"
+              },
+              "weight": {
+                "type": "string"
+              },
+              "stretch": {
+                "type": "string"
+              },
+              "display": {
+                "type": "string"
+              },
+              "unicodeRange": {
+                "type": "string"
+              },
+              "featureSettings": {
+                "type": "string"
+              },
+              "variationSettings": {
+                "type": "string"
+              },
+              "src": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["url"],
+                  "properties": {
+                    "url": {
+                      "type": "string"
+                    },
+                    "format": {
+                      "type": "string"
+                    },
+                    "tech": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "scales": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "space": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "size": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "radius": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "borderWidth": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "fontSize": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "lineHeight": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "fontWeight": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "letterSpacing": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "shadow": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "z": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "opacity": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "aspect": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "duration": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "easing": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "delay": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "translate": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "rotate": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "scale": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "maxWidth": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "maxHeight": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        },
+        "container": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "variants": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "responsive": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "state": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "build": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "content": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "safelist": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "gridColumns": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "unknownClassPolicy": {
+          "type": "string",
+          "enum": ["ignore", "warn", "error"]
+        },
+        "emit": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "fontsCss": {
+              "type": "boolean"
+            },
+            "tokensCss": {
+              "type": "boolean"
+            },
+            "base": {
+              "type": "boolean"
+            },
+            "manifest": {
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    }
+  }
+}
