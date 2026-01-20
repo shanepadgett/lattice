@@ -31,7 +31,7 @@ func ParseSemverMajor(v string) (int, bool) {
 	}
 
 	major, err := strconv.Atoi(v[start:end])
-	if err != nil || major <= 0 {
+	if err != nil || major < 0 {
 		return 0, false
 	}
 	return major, true

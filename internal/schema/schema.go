@@ -11,19 +11,9 @@ import (
 	"path/filepath"
 )
 
-func Generate(versionString string, schemaVersion int) error {
-	if schemaVersion <= 0 {
-		return errors.New("--schema-version is required and must be greater than zero")
-	}
-
-	if major, ok := version.ParseSemverMajor(versionString); ok {
-		if major != schemaVersion {
-			return fmt.Errorf("--schema-version must match --version major (%d)", major)
-		}
-	}
-
+func Generate(versionString string) error {
 	releaseID := ""
-	if major, ok := version.ParseSemverMajor(versionString); ok && major > 0 {
+	if _, ok := version.ParseSemverMajor(versionString); ok {
 		releaseID = fmt.Sprintf("https://github.com/shanepadgett/lattice/releases/download/%s/lattice.schema.json", versionString)
 	}
 	if releaseID == "" {

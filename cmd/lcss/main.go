@@ -154,11 +154,10 @@ func runSchema(args []string) error {
 	flags.SetOutput(os.Stdout)
 
 	verFlag := flags.String("version", version, "Semver version for release asset $id, e.g. v1.2.3")
-	schemaVersion := flags.Int("schema-version", 0, "Schema major version (typically the binary major)")
 
 	flags.Usage = func() {
 		_, _ = fmt.Fprintln(os.Stdout, "Usage:")
-		_, _ = fmt.Fprintln(os.Stdout, "  lcss schema [--version vX.Y.Z] --schema-version X")
+		_, _ = fmt.Fprintln(os.Stdout, "  lcss schema [--version vX.Y.Z]")
 		_, _ = fmt.Fprintln(os.Stdout, "")
 		_, _ = fmt.Fprintln(os.Stdout, "Options:")
 		flags.PrintDefaults()
@@ -168,7 +167,7 @@ func runSchema(args []string) error {
 		return err
 	}
 
-	return schema.Generate(*verFlag, *schemaVersion)
+	return schema.Generate(*verFlag)
 }
 
 func runConfigPrint(args []string) error {
@@ -222,7 +221,7 @@ func printRootUsage() {
 	_, _ = fmt.Fprintln(os.Stdout, "  lcss build [--site <path>] [--out <path>] [--stdout] [--production]")
 	_, _ = fmt.Fprintln(os.Stdout, "  lcss watch [--site <path>] [--out <path>] [--interval <dur>] [--once]")
 	_, _ = fmt.Fprintln(os.Stdout, "  lcss scan [--site <path>] [--top <n>]")
-	_, _ = fmt.Fprintln(os.Stdout, "  lcss schema [--version vX.Y.Z] --schema-version X")
+	_, _ = fmt.Fprintln(os.Stdout, "  lcss schema [--version vX.Y.Z]")
 }
 
 func printConfigUsage() {

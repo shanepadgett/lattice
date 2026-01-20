@@ -24,7 +24,7 @@ build-release:
 
 schema:
 	@mkdir -p dist
-	go run ./cmd/lcss schema --version "$(VERSION)" --schema-version 1
+	go run ./cmd/lcss schema --version "$(VERSION)"
 
 test:
 	go test ./...
